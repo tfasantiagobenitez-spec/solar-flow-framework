@@ -4,17 +4,44 @@ import { Button } from '@/components/ui/button';
 
 const WhatsAppChat = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [chatInitialized, setChatInitialized] = useState(false);
 
   useEffect(() => {
-    // Load n8n chat widget script
-    if (isOpen && !document.querySelector('#n8n-chat-script')) {
+    if (isOpen && !chatInitialized) {
+      // Dynamically load the n8n chat widget
       const script = document.createElement('script');
-      script.id = 'n8n-chat-script';
-      script.src = 'https://benitjs.app.n8n.cloud/webhook/15ec5689-dd61-4429-9e21-a932e983b65a/chat';
-      script.async = true;
+      script.type = 'module';
+      script.innerHTML = `
+        import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+        
+        createChat({
+          webhookUrl: 'https://benitjs.app.n8n.cloud/webhook/15ec5689-dd61-4429-9e21-a932e983b65a/chat',
+          target: '#n8n-chat-container',
+          mode: 'window',
+          defaultHeight: 600,
+          defaultWidth: 400,
+          showWindowCloseButton: false,
+          theme: {
+            header: {
+              backgroundColor: '#22c55e',
+              color: 'white'
+            }
+          }
+        });
+      `;
+      
       document.head.appendChild(script);
+      setChatInitialized(true);
+
+      // Cleanup function
+      return () => {
+        const chatContainer = document.getElementById('n8n-chat-container');
+        if (chatContainer) {
+          chatContainer.innerHTML = '';
+        }
+      };
     }
-  }, [isOpen]);
+  }, [isOpen, chatInitialized]);
 
   return (
     <>
@@ -30,7 +57,7 @@ const WhatsAppChat = () => {
         </Button>
       </div>
 
-      {/* Chat Window with embedded n8n chat */}
+      {/* Chat Window */}
       <div
         className={`fixed bottom-6 right-6 z-50 w-80 h-96 bg-white rounded-lg shadow-xl transition-all duration-300 overflow-hidden ${
           isOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
@@ -57,15 +84,15 @@ const WhatsAppChat = () => {
           </Button>
         </div>
 
-        {/* Embedded Chat Frame */}
-        <div className="flex-1 h-80">
-          {isOpen && (
-            <iframe
-              src="https://benitjs.app.n8n.cloud/webhook/15ec5689-dd61-4429-9e21-a932e983b65a/chat"
-              className="w-full h-full border-0"
-              title="Chat de SolarTech Argentina"
-              allow="microphone; camera"
-            />
+        {/* Chat Container */}
+        <div 
+          id="n8n-chat-container" 
+          className="flex-1 h-80 w-full"
+        >
+          {isOpen && !chatInitialized && (
+            <div className="flex items-center justify-center h-full">
+              <div className="text-gray-500">Cargando chat...</div>
+            </div>
           )}
         </div>
       </div>
