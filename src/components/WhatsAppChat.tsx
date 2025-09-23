@@ -2,107 +2,79 @@ import React, { useState, useEffect } from 'react';
 import { MessageCircle, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-// Declare global type for n8n chat
-declare global {
-  interface Window {
-    createChat?: (config: any) => void;
-  }
-}
-
 const WhatsAppChat = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [chatReady, setChatReady] = useState(false);
 
   useEffect(() => {
-    // Load n8n chat script once when component mounts
-    const loadChatScript = () => {
-      // Check if script already exists
-      if (document.querySelector('script[src*="n8n/chat"]')) {
-        setChatReady(true);
-        return;
-      }
-
-      const script = document.createElement('script');
-      script.src = 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
-      script.type = 'module';
-      script.onload = () => {
-        setChatReady(true);
-        console.log('N8N chat library loaded');
-      };
-      script.onerror = () => {
-        console.error('Failed to load N8N chat library');
-      };
-      
-      document.head.appendChild(script);
-    };
-
-    loadChatScript();
-  }, []);
-
-  const initializeChat = () => {
-    if (!chatReady) return;
-
-    // Clear any existing chat
-    const container = document.getElementById('chat-widget-container');
-    if (container) {
-      container.innerHTML = '<div id="n8n-chat"></div>';
-    }
-
-    // Initialize chat using global createChat function
-    setTimeout(() => {
-      if (window.createChat) {
-        window.createChat({
-          webhookUrl: 'https://benitjs.app.n8n.cloud/webhook/15ec5689-dd61-4429-9e21-a932e983b65a/chat',
-          target: '#n8n-chat',
-          mode: 'embedded',
-          defaultHeight: 400,
-          defaultWidth: 360,
-          showWindowCloseButton: false,
-          initialMessages: [
-            "¡Hola! Soy AISA 🤖\n\nTu asistente virtual de SolarTech Argentina disponible 24/7!!",
-            "Estoy aquí para ayudarte con consultas sobre sistemas solares, técnicas y operativas. ¿En qué puedo asistirte hoy?"
-          ],
-          chatInputPlaceholder: "Escribe un mensaje",
-          subtitle: "En línea",
-          theme: {
-            header: {
-              backgroundColor: '#075e54',
-              color: 'white'
-            },
-            chatWindow: {
-              backgroundColor: '#e5ddd5',
-              backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0,0,0,.05) 2px, rgba(0,0,0,.05) 4px)'
-            },
-            input: {
-              backgroundColor: 'white',
-              borderColor: '#d1d7db',
-              borderRadius: '20px',
-              fontSize: '14px',
-              padding: '12px 16px'
-            },
-            sendButton: {
-              backgroundColor: '#25d366',
-              borderRadius: '50%'
-            },
-            userMessage: {
-              backgroundColor: '#dcf8c6',
-              borderRadius: '18px 18px 4px 18px'
-            },
-            botMessage: {
-              backgroundColor: 'white',
-              borderRadius: '18px 18px 18px 4px'
+    if (isOpen) {
+      // Clear the container first
+      const container = document.getElementById('chat-container');
+      if (container) {
+        container.innerHTML = '';
+        
+        // Create the n8n chat embed script
+        const script = document.createElement('script');
+        script.type = 'module';
+        script.innerHTML = `
+          import '@n8n/chat/style.css';
+          import { createChat } from '@n8n/chat';
+          
+          createChat({
+            webhookUrl: 'https://benitjs.app.n8n.cloud/webhook/15ec5689-dd61-4429-9e21-a932e983b65a/chat',
+            target: '#chat-container',
+            mode: 'embedded',
+            defaultHeight: 400,
+            defaultWidth: '100%',
+            showWindowCloseButton: false,
+            initialMessages: [
+              "¡Hola! Soy AISA 🤖\\n\\nTu asistente virtual de SolarTech Argentina disponible 24/7!!",
+              "Estoy aquí para ayudarte con consultas sobre sistemas solares, técnicas y operativas. ¿En qué puedo asistirte hoy?"
+            ],
+            chatInputPlaceholder: "Escribe un mensaje",
+            subtitle: "En línea",
+            theme: {
+              header: {
+                backgroundColor: '#075e54',
+                color: 'white'
+              },
+              chatWindow: {
+                backgroundColor: '#e5ddd5',
+                backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0,0,0,.05) 2px, rgba(0,0,0,.05) 4px)'
+              },
+              input: {
+                backgroundColor: 'white',
+                borderColor: '#d1d7db',
+                borderRadius: '20px'
+              },
+              sendButton: {
+                backgroundColor: '#25d366'
+              },
+              userMessage: {
+                backgroundColor: '#dcf8c6',
+                borderRadius: '18px 18px 4px 18px'
+              },
+              botMessage: {
+                backgroundColor: 'white',
+                borderRadius: '18px 18px 18px 4px'
+              }
             }
-          }
-        });
+          }).catch(error => {
+            console.error('Error creating chat:', error);
+            document.getElementById('chat-container').innerHTML = 
+              '<div class="p-4 text-center text-gray-500">Error cargando el chat. Por favor, intenta más tarde.</div>';
+          });
+        `;
+        
+        // Add script to head
+        document.head.appendChild(script);
+        
+        // Cleanup function to remove script when component unmounts or chat closes
+        return () => {
+          document.head.removeChild(script);
+        };
       }
-    }, 100);
-  };
-
-  useEffect(() => {
-    if (isOpen && chatReady) {
-      initializeChat();
     }
-  }, [isOpen, chatReady]);
+  }, [isOpen]);
 
   const handleOpen = () => {
     setIsOpen(true);
@@ -110,8 +82,8 @@ const WhatsAppChat = () => {
 
   const handleClose = () => {
     setIsOpen(false);
-    // Clear chat container
-    const container = document.getElementById('chat-widget-container');
+    // Clear the container
+    const container = document.getElementById('chat-container');
     if (container) {
       container.innerHTML = '';
     }
@@ -160,10 +132,10 @@ const WhatsAppChat = () => {
 
         {/* Chat Container */}
         <div 
-          id="chat-widget-container"
+          id="chat-container"
           className="flex-1 h-[420px] w-full"
         >
-          {isOpen && !chatReady && (
+          {isOpen && (
             <div className="flex items-center justify-center h-full">
               <div className="text-gray-500">Cargando chat...</div>
             </div>
