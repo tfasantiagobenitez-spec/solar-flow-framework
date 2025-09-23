@@ -50,7 +50,9 @@ const WhatsAppChat = () => {
               backgroundColor: '#e5ddd5',
               backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0,0,0,.05) 2px, rgba(0,0,0,.05) 4px)',
               height: '280px',
-              padding: '8px'
+              padding: '8px',
+              overflowY: 'auto',
+              scrollBehavior: 'smooth'
             },
             input: {
               backgroundColor: 'white',
