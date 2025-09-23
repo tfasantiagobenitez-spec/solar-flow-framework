@@ -1,90 +1,20 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { X, Send, MessageCircle } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { MessageCircle, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-
-interface Message {
-  id: string;
-  text: string;
-  isUser: boolean;
-  timestamp: Date;
-}
 
 const WhatsAppChat = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: '1',
-      text: '¡Hola! 👋 Te damos la bienvenida a SolarTech Argentina. ¿En qué podemos ayudarte con tu proyecto de energía solar?',
-      isUser: false,
-      timestamp: new Date(),
-    },
-  ]);
-  const [isLoading, setIsLoading] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
-  const sendMessage = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!message.trim()) return;
-
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      text: message,
-      isUser: true,
-      timestamp: new Date(),
-    };
-
-    setMessages(prev => [...prev, userMessage]);
-    setMessage('');
-    setIsLoading(true);
-
-    // Send to webhook with proper error handling
-    console.log('Sending message to webhook:', userMessage.text);
-    fetch('https://benitjs.app.n8n.cloud/webhook/15ec5689-dd61-4429-9e21-a932e983b65a/chat', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        message: userMessage.text,
-        timestamp: userMessage.timestamp.toISOString(),
-        from: 'website_chat',
-      }),
-    })
-    .then(response => {
-      console.log('Webhook response status:', response.status);
-      if (response.ok) {
-        console.log('Message sent successfully to webhook');
-      } else {
-        console.error('Webhook response not ok:', response.status, response.statusText);
-      }
-    })
-    .catch(error => {
-      console.error('Error sending to webhook:', error);
-    });
-
-    // Always show confirmation message
-    setTimeout(() => {
-      const autoResponse: Message = {
-        id: (Date.now() + 1).toString(),
-        text: 'Gracias por tu mensaje. Nuestro equipo se pondrá en contacto contigo pronto para ayudarte con tu consulta sobre energía solar. 🌞',
-        isUser: false,
-        timestamp: new Date(),
-      };
-      setMessages(prev => [...prev, autoResponse]);
-      setIsLoading(false);
-    }, 1500);
-  };
+    // Load n8n chat widget script
+    if (isOpen && !document.querySelector('#n8n-chat-script')) {
+      const script = document.createElement('script');
+      script.id = 'n8n-chat-script';
+      script.src = 'https://benitjs.app.n8n.cloud/webhook/15ec5689-dd61-4429-9e21-a932e983b65a/chat';
+      script.async = true;
+      document.head.appendChild(script);
+    }
+  }, [isOpen]);
 
   return (
     <>
@@ -100,9 +30,9 @@ const WhatsAppChat = () => {
         </Button>
       </div>
 
-      {/* Chat Window */}
+      {/* Chat Window with embedded n8n chat */}
       <div
-        className={`fixed bottom-6 right-6 z-50 w-80 h-96 bg-white rounded-lg shadow-xl transition-all duration-300 ${
+        className={`fixed bottom-6 right-6 z-50 w-80 h-96 bg-white rounded-lg shadow-xl transition-all duration-300 overflow-hidden ${
           isOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
         }`}
       >
@@ -127,58 +57,17 @@ const WhatsAppChat = () => {
           </Button>
         </div>
 
-        {/* Messages */}
-        <div className="flex-1 p-4 h-64 overflow-y-auto bg-gray-50">
-          {messages.map((msg) => (
-            <div
-              key={msg.id}
-              className={`mb-3 flex ${msg.isUser ? 'justify-end' : 'justify-start'}`}
-            >
-              <div
-                className={`max-w-xs px-3 py-2 rounded-lg text-sm ${
-                  msg.isUser
-                    ? 'bg-green-500 text-white rounded-br-none'
-                    : 'bg-white text-gray-800 rounded-bl-none shadow-sm'
-                }`}
-              >
-                {msg.text}
-              </div>
-            </div>
-          ))}
-          {isLoading && (
-            <div className="flex justify-start mb-3">
-              <div className="bg-white text-gray-800 rounded-lg rounded-bl-none shadow-sm px-3 py-2 text-sm">
-                <div className="flex space-x-1">
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                </div>
-              </div>
-            </div>
-          )}
-          <div ref={messagesEndRef} />
-        </div>
-
-        {/* Input */}
-        <form onSubmit={sendMessage} className="p-4 border-t">
-          <div className="flex space-x-2">
-            <Input
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Escribe tu mensaje..."
-              className="flex-1"
-              disabled={isLoading}
+        {/* Embedded Chat Frame */}
+        <div className="flex-1 h-80">
+          {isOpen && (
+            <iframe
+              src="https://benitjs.app.n8n.cloud/webhook/15ec5689-dd61-4429-9e21-a932e983b65a/chat"
+              className="w-full h-full border-0"
+              title="Chat de SolarTech Argentina"
+              allow="microphone; camera"
             />
-            <Button
-              type="submit"
-              size="sm"
-              className="bg-green-500 hover:bg-green-600"
-              disabled={isLoading || !message.trim()}
-            >
-              <Send size={16} />
-            </Button>
-          </div>
-        </form>
+          )}
+        </div>
       </div>
     </>
   );
