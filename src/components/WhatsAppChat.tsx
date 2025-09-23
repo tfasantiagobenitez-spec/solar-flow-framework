@@ -49,7 +49,7 @@ const WhatsAppChat = () => {
     setIsLoading(true);
 
     // Send to webhook (fire and forget)
-    fetch('https://benitjs.app.n8n.cloud/webhook/67a2bb5c-71e7-46f0-b350-9f5aeec61d99', {
+    fetch('https://benitjs.app.n8n.cloud/webhook/15ec5689-dd61-4429-9e21-a932e983b65a/chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
