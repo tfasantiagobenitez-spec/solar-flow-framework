@@ -17,7 +17,7 @@ const WhatsAppChat = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const botResponses = [
-    "¡Hola! 👋 Soy AISA, tu asistente virtual de SolarTech Argentina. ¿En qué puedo ayudarte hoy?",
+    "¡Hola! 👋 Soy ALP, tu asistente virtual de SolarTech Argentina. ¿En qué puedo ayudarte hoy?",
     "Perfecto, te puedo ayudar con información sobre sistemas solares, cotizaciones y más. ¿Qué te interesa saber?",
     "Nuestros paneles solares tienen garantía de 25 años y pueden reducir tu factura eléctrica hasta un 90%. ¿Te gustaría una cotización personalizada?",
     "¡Excelente pregunta! Nuestro equipo puede visitarte para hacer una evaluación gratuita. ¿Cuál es tu ubicación?",
@@ -28,7 +28,7 @@ const WhatsAppChat = () => {
   const initialMessages: Message[] = [
     {
       id: 1,
-      text: "¡Hola! Soy AISA 🤖\n\nTu asistente virtual de SolarTech Argentina disponible 24/7!!",
+      text: "¡Hola! Soy ALP 🤖\n\nTu asistente virtual de SolarTech Argentina disponible 24/7!!",
       isBot: true,
       timestamp: new Date()
     },
