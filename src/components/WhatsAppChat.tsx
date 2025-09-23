@@ -78,9 +78,11 @@ const WhatsAppChat = () => {
         })
       });
 
+      const data = await response.json();
+      console.log('Response status:', response.status, 'Response data:', data);
+
       if (response.ok) {
-        const data = await response.json();
-        const botResponse = data.response || data.message || "Lo siento, no pude procesar tu mensaje. ¿Podrías intentar de nuevo?";
+        const botResponse = data.response || data.message || data.text || "Mensaje recibido correctamente.";
         
         const botMessage: Message = {
           id: Date.now() + 1,
@@ -91,13 +93,22 @@ const WhatsAppChat = () => {
         
         setMessages(prev => [...prev, botMessage]);
       } else {
-        throw new Error('Error en la respuesta del servidor');
+        // Handle server errors with more specific messages
+        const errorText = data.message || `Error del servidor (${response.status})`;
+        const errorMessage: Message = {
+          id: Date.now() + 1,
+          text: `❌ ${errorText}\n\nPor favor verifica que el workflow de n8n esté funcionando correctamente. Mientras tanto, puedes contactarnos directamente por WhatsApp.`,
+          isBot: true,
+          timestamp: new Date()
+        };
+        
+        setMessages(prev => [...prev, errorMessage]);
       }
     } catch (error) {
       console.error('Error sending message:', error);
       const errorMessage: Message = {
         id: Date.now() + 1,
-        text: "Lo siento, hay un problema con la conexión. Por favor intenta más tarde o contacta directamente por WhatsApp.",
+        text: "❌ Error de conexión\n\nNo se pudo conectar con el servidor. Por favor verifica tu conexión a internet o contacta directamente por WhatsApp.",
         isBot: true,
         timestamp: new Date()
       };
