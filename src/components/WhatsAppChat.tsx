@@ -1,80 +1,97 @@
-import React, { useState, useEffect } from 'react';
-import { MessageCircle, X } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { MessageCircle, X, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+
+interface Message {
+  id: number;
+  text: string;
+  isBot: boolean;
+  timestamp: Date;
+}
 
 const WhatsAppChat = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [inputValue, setInputValue] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const botResponses = [
+    "¡Hola! 👋 Soy AISA, tu asistente virtual de SolarTech Argentina. ¿En qué puedo ayudarte hoy?",
+    "Perfecto, te puedo ayudar con información sobre sistemas solares, cotizaciones y más. ¿Qué te interesa saber?",
+    "Nuestros paneles solares tienen garantía de 25 años y pueden reducir tu factura eléctrica hasta un 90%. ¿Te gustaría una cotización personalizada?",
+    "¡Excelente pregunta! Nuestro equipo puede visitarte para hacer una evaluación gratuita. ¿Cuál es tu ubicación?",
+    "Gracias por tu consulta. Un especialista se contactará contigo en las próximas 24 horas. ¿Hay algo más en lo que pueda ayudarte?",
+    "Para más información detallada, puedes llamarnos al 0800-SOLAR o visitar nuestra página web. ¡Estamos aquí para ayudarte!"
+  ];
+
+  const initialMessages: Message[] = [
+    {
+      id: 1,
+      text: "¡Hola! Soy AISA 🤖\n\nTu asistente virtual de SolarTech Argentina disponible 24/7!!",
+      isBot: true,
+      timestamp: new Date()
+    },
+    {
+      id: 2,
+      text: "Estoy aquí para ayudarte con consultas sobre sistemas solares, técnicas y operativas. ¿En qué puedo asistirte hoy?",
+      isBot: true,
+      timestamp: new Date()
+    }
+  ];
 
   useEffect(() => {
-    if (isOpen) {
-      // Clear the container first
-      const container = document.getElementById('chat-container');
-      if (container) {
-        container.innerHTML = '';
-        
-        // Create the n8n chat embed script
-        const script = document.createElement('script');
-        script.type = 'module';
-        script.innerHTML = `
-          import '@n8n/chat/style.css';
-          import { createChat } from '@n8n/chat';
-          
-          createChat({
-            webhookUrl: 'https://benitjs.app.n8n.cloud/webhook/15ec5689-dd61-4429-9e21-a932e983b65a/chat',
-            target: '#chat-container',
-            mode: 'embedded',
-            defaultHeight: 400,
-            defaultWidth: '100%',
-            showWindowCloseButton: false,
-            initialMessages: [
-              "¡Hola! Soy AISA 🤖\\n\\nTu asistente virtual de SolarTech Argentina disponible 24/7!!",
-              "Estoy aquí para ayudarte con consultas sobre sistemas solares, técnicas y operativas. ¿En qué puedo asistirte hoy?"
-            ],
-            chatInputPlaceholder: "Escribe un mensaje",
-            subtitle: "En línea",
-            theme: {
-              header: {
-                backgroundColor: '#075e54',
-                color: 'white'
-              },
-              chatWindow: {
-                backgroundColor: '#e5ddd5',
-                backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0,0,0,.05) 2px, rgba(0,0,0,.05) 4px)'
-              },
-              input: {
-                backgroundColor: 'white',
-                borderColor: '#d1d7db',
-                borderRadius: '20px'
-              },
-              sendButton: {
-                backgroundColor: '#25d366'
-              },
-              userMessage: {
-                backgroundColor: '#dcf8c6',
-                borderRadius: '18px 18px 4px 18px'
-              },
-              botMessage: {
-                backgroundColor: 'white',
-                borderRadius: '18px 18px 18px 4px'
-              }
-            }
-          }).catch(error => {
-            console.error('Error creating chat:', error);
-            document.getElementById('chat-container').innerHTML = 
-              '<div class="p-4 text-center text-gray-500">Error cargando el chat. Por favor, intenta más tarde.</div>';
-          });
-        `;
-        
-        // Add script to head
-        document.head.appendChild(script);
-        
-        // Cleanup function to remove script when component unmounts or chat closes
-        return () => {
-          document.head.removeChild(script);
-        };
-      }
+    if (isOpen && messages.length === 0) {
+      setMessages(initialMessages);
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
+  const handleSendMessage = () => {
+    if (inputValue.trim() === '') return;
+
+    const newMessage: Message = {
+      id: Date.now(),
+      text: inputValue,
+      isBot: false,
+      timestamp: new Date()
+    };
+
+    setMessages(prev => [...prev, newMessage]);
+    setInputValue('');
+    setIsTyping(true);
+
+    // Simulate bot response after delay
+    setTimeout(() => {
+      const randomResponse = botResponses[Math.floor(Math.random() * botResponses.length)];
+      const botMessage: Message = {
+        id: Date.now() + 1,
+        text: randomResponse,
+        isBot: true,
+        timestamp: new Date()
+      };
+      
+      setMessages(prev => [...prev, botMessage]);
+      setIsTyping(false);
+    }, 1500 + Math.random() * 1000);
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
+    }
+  };
+
+  const formatTime = (date: Date) => {
+    return date.toLocaleTimeString('es-AR', { 
+      hour: '2-digit', 
+      minute: '2-digit' 
+    });
+  };
 
   const handleOpen = () => {
     setIsOpen(true);
@@ -82,11 +99,9 @@ const WhatsAppChat = () => {
 
   const handleClose = () => {
     setIsOpen(false);
-    // Clear the container
-    const container = document.getElementById('chat-container');
-    if (container) {
-      container.innerHTML = '';
-    }
+    setMessages([]);
+    setInputValue('');
+    setIsTyping(false);
   };
 
   return (
@@ -130,16 +145,69 @@ const WhatsAppChat = () => {
           </Button>
         </div>
 
-        {/* Chat Container */}
+        {/* Chat Messages Area */}
         <div 
-          id="chat-container"
-          className="flex-1 h-[420px] w-full"
+          className="flex-1 h-[350px] overflow-y-auto p-4 bg-gray-50"
+          style={{ 
+            backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0,0,0,.02) 2px, rgba(0,0,0,.02) 4px)' 
+          }}
         >
-          {isOpen && (
-            <div className="flex items-center justify-center h-full">
-              <div className="text-gray-500">Cargando chat...</div>
+          {messages.map((message) => (
+            <div
+              key={message.id}
+              className={`flex mb-3 ${message.isBot ? 'justify-start' : 'justify-end'}`}
+            >
+              <div
+                className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg shadow ${
+                  message.isBot
+                    ? 'bg-white text-gray-800 rounded-br-lg rounded-bl-sm rounded-tr-lg rounded-tl-lg'
+                    : 'bg-green-500 text-white rounded-bl-lg rounded-br-sm rounded-tl-lg rounded-tr-lg'
+                }`}
+              >
+                <p className="text-sm whitespace-pre-line">{message.text}</p>
+                <p className={`text-xs mt-1 ${message.isBot ? 'text-gray-500' : 'text-green-100'}`}>
+                  {formatTime(message.timestamp)}
+                </p>
+              </div>
+            </div>
+          ))}
+          
+          {/* Typing indicator */}
+          {isTyping && (
+            <div className="flex justify-start mb-3">
+              <div className="bg-white text-gray-800 px-4 py-2 rounded-lg shadow">
+                <div className="flex space-x-1">
+                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-75"></div>
+                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-150"></div>
+                </div>
+              </div>
             </div>
           )}
+          
+          <div ref={messagesEndRef} />
+        </div>
+
+        {/* Chat Input */}
+        <div className="p-4 bg-white border-t border-gray-200">
+          <div className="flex items-center space-x-2">
+            <textarea
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder="Escribe un mensaje..."
+              className="flex-1 px-4 py-2 border border-gray-300 rounded-full resize-none focus:outline-none focus:ring-2 focus:ring-green-500 max-h-20"
+              rows={1}
+              style={{ minHeight: '40px' }}
+            />
+            <Button
+              onClick={handleSendMessage}
+              disabled={inputValue.trim() === ''}
+              className="w-10 h-10 rounded-full bg-green-500 hover:bg-green-600 disabled:bg-gray-300 flex items-center justify-center p-0"
+            >
+              <Send size={16} />
+            </Button>
+          </div>
         </div>
       </div>
     </>
