@@ -1,28 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { MessageCircle, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const WhatsAppChat = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [chatInitialized, setChatInitialized] = useState(false);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+  const scriptRef = useRef<HTMLScriptElement | null>(null);
 
   const initializeChat = () => {
     try {
-      // Clear any existing chat
-      const chatContainer = document.getElementById('n8n-chat-container');
-      if (chatContainer) {
-        chatContainer.innerHTML = '';
+      // Clean up any existing script
+      if (scriptRef.current && scriptRef.current.parentNode) {
+        scriptRef.current.parentNode.removeChild(scriptRef.current);
+        scriptRef.current = null;
       }
 
-      // Remove any existing scripts
-      const existingScript = document.querySelector('#n8n-chat-script');
-      if (existingScript) {
-        existingScript.remove();
+      // Clear chat container using ref
+      if (chatContainerRef.current) {
+        chatContainerRef.current.innerHTML = '';
       }
 
-      // Load the n8n chat library and initialize
+      // Create and load the n8n chat script
       const script = document.createElement('script');
-      script.id = 'n8n-chat-script';
       script.type = 'module';
       script.onload = () => {
         console.log('N8N chat script loaded successfully');
@@ -121,9 +121,10 @@ const WhatsAppChat = () => {
         }
       `;
       
+      scriptRef.current = script;
       document.head.appendChild(script);
       
-      // Set initialization to true after a delay to allow loading
+      // Set initialization to true after a delay
       setTimeout(() => {
         setChatInitialized(true);
       }, 1500);
@@ -135,18 +136,32 @@ const WhatsAppChat = () => {
   };
 
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && !chatInitialized) {
       initializeChat();
     }
-  }, [isOpen]);
+    
+    // Cleanup on unmount
+    return () => {
+      if (scriptRef.current && scriptRef.current.parentNode) {
+        scriptRef.current.parentNode.removeChild(scriptRef.current);
+        scriptRef.current = null;
+      }
+    };
+  }, [isOpen, chatInitialized]);
 
   const handleClose = () => {
     setIsOpen(false);
     setChatInitialized(false);
-    // Clear chat container
-    const chatContainer = document.getElementById('n8n-chat-container');
-    if (chatContainer) {
-      chatContainer.innerHTML = '';
+    
+    // Clean up script
+    if (scriptRef.current && scriptRef.current.parentNode) {
+      scriptRef.current.parentNode.removeChild(scriptRef.current);
+      scriptRef.current = null;
+    }
+    
+    // Clear chat container using ref
+    if (chatContainerRef.current) {
+      chatContainerRef.current.innerHTML = '';
     }
   };
 
@@ -193,6 +208,7 @@ const WhatsAppChat = () => {
 
         {/* Chat Container */}
         <div 
+          ref={chatContainerRef}
           id="n8n-chat-container" 
           className="flex-1 h-[420px] w-full"
         >
