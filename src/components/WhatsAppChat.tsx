@@ -50,12 +50,13 @@ const WhatsAppChat = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (inputValue.trim() === '') return;
 
+    const userMessage = inputValue.trim();
     const newMessage: Message = {
       id: Date.now(),
-      text: inputValue,
+      text: userMessage,
       isBot: false,
       timestamp: new Date()
     };
@@ -64,19 +65,47 @@ const WhatsAppChat = () => {
     setInputValue('');
     setIsTyping(true);
 
-    // Simulate bot response after delay
-    setTimeout(() => {
-      const randomResponse = botResponses[Math.floor(Math.random() * botResponses.length)];
-      const botMessage: Message = {
+    try {
+      // Send message to n8n webhook
+      const response = await fetch('https://benitjs.app.n8n.cloud/webhook/15ec5689-dd61-4429-9e21-a932e983b65a/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: userMessage,
+          timestamp: new Date().toISOString()
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const botResponse = data.response || data.message || "Lo siento, no pude procesar tu mensaje. ¿Podrías intentar de nuevo?";
+        
+        const botMessage: Message = {
+          id: Date.now() + 1,
+          text: botResponse,
+          isBot: true,
+          timestamp: new Date()
+        };
+        
+        setMessages(prev => [...prev, botMessage]);
+      } else {
+        throw new Error('Error en la respuesta del servidor');
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+      const errorMessage: Message = {
         id: Date.now() + 1,
-        text: randomResponse,
+        text: "Lo siento, hay un problema con la conexión. Por favor intenta más tarde o contacta directamente por WhatsApp.",
         isBot: true,
         timestamp: new Date()
       };
       
-      setMessages(prev => [...prev, botMessage]);
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
       setIsTyping(false);
-    }, 1500 + Math.random() * 1000);
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
