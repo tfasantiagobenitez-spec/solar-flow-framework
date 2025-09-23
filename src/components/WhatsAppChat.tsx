@@ -70,10 +70,6 @@ const WhatsAppChat = () => {
     setIsTyping(true);
 
     try {
-      // Intentar conectar con n8n webhook
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
-
       const response = await fetch('https://benitjs.app.n8n.cloud/webhook/15ec5689-dd61-4429-9e21-a932e983b65a/chat', {
         method: 'POST',
         headers: {
@@ -81,49 +77,46 @@ const WhatsAppChat = () => {
         },
         body: JSON.stringify({
           message: userMessage,
+          user: 'web-chat',
           timestamp: new Date().toISOString()
-        }),
-        signal: controller.signal
+        })
       });
 
-      clearTimeout(timeoutId);
       const data = await response.json();
+      console.log('N8N Response:', { status: response.status, data });
 
-      if (response.ok && data.response) {
-        const botResponse = data.response || data.message || data.text;
+      if (response.ok) {
+        // Intentar extraer la respuesta de diferentes posibles campos
+        const botResponse = data.response || data.reply || data.message || data.text || data.output;
         
-        const botMessage: Message = {
-          id: Date.now() + 1,
-          text: botResponse,
-          isBot: true,
-          timestamp: new Date()
-        };
-        
-        setMessages(prev => [...prev, botMessage]);
+        if (botResponse) {
+          const botMessage: Message = {
+            id: Date.now() + 1,
+            text: botResponse,
+            isBot: true,
+            timestamp: new Date()
+          };
+          setMessages(prev => [...prev, botMessage]);
+        } else {
+          throw new Error('No response content received from n8n');
+        }
       } else {
-        // Si el webhook no funciona, usar respuesta predefinida
-        throw new Error('Webhook not working, using fallback');
+        throw new Error(`N8N Error (${response.status}): ${data.message || 'Unknown error'}`);
       }
     } catch (error) {
-      console.log('Using fallback response due to:', error);
+      console.error('N8N Connection Error:', error);
       
-      // Usar respuesta predefinida como respaldo
-      setTimeout(() => {
-        const fallbackResponse = botResponses[Math.floor(Math.random() * botResponses.length)];
-        const botMessage: Message = {
-          id: Date.now() + 1,
-          text: fallbackResponse + "\n\n📢 *Nota: Actualmente usando respuestas automáticas. Para consultas específicas, contacta directamente por WhatsApp.*",
-          isBot: true,
-          timestamp: new Date()
-        };
-        
-        setMessages(prev => [...prev, botMessage]);
-        setIsTyping(false);
-      }, 1000 + Math.random() * 1500);
-      return;
+      const errorMessage: Message = {
+        id: Date.now() + 1,
+        text: `🔧 Error de conexión con n8n: ${error.message}\n\nPor favor revisa la configuración del workflow en n8n.`,
+        isBot: true,
+        timestamp: new Date()
+      };
+      
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
+      setIsTyping(false);
     }
-
-    setIsTyping(false);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
