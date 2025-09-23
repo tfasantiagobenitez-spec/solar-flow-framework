@@ -7,106 +7,131 @@ const WhatsAppChat = () => {
   const [chatInitialized, setChatInitialized] = useState(false);
 
   const initializeChat = () => {
-    // Clear any existing chat
-    const chatContainer = document.getElementById('n8n-chat-container');
-    if (chatContainer) {
-      chatContainer.innerHTML = '';
-    }
+    try {
+      // Clear any existing chat
+      const chatContainer = document.getElementById('n8n-chat-container');
+      if (chatContainer) {
+        chatContainer.innerHTML = '';
+      }
 
-    // Remove any existing scripts
-    const existingScript = document.querySelector('#n8n-chat-script');
-    if (existingScript) {
-      existingScript.remove();
-    }
+      // Remove any existing scripts
+      const existingScript = document.querySelector('#n8n-chat-script');
+      if (existingScript) {
+        existingScript.remove();
+      }
 
-    // Wait a bit then initialize chat
-    setTimeout(() => {
+      // Load the n8n chat library and initialize
       const script = document.createElement('script');
       script.id = 'n8n-chat-script';
       script.type = 'module';
+      script.onload = () => {
+        console.log('N8N chat script loaded successfully');
+      };
+      script.onerror = (error) => {
+        console.error('Error loading N8N chat script:', error);
+        setChatInitialized(false);
+      };
+      
       script.innerHTML = `
-        import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
-        
-        createChat({
-          webhookUrl: 'https://benitjs.app.n8n.cloud/webhook/15ec5689-dd61-4429-9e21-a932e983b65a/chat',
-          target: '#n8n-chat-container',
-          mode: 'embedded',
-          defaultHeight: 500,
-          defaultWidth: 400,
-          showWindowCloseButton: false,
-          initialMessages: [
-            "¡Hola! Soy AISA 🤖\\n\\nTu asistente virtual de SolarTech Argentina disponible 24/7!!",
-            "Estoy aquí para ayudarte con consultas sobre sistemas solares, técnicas y operativas. ¿En qué puedo asistirte hoy?"
-          ],
-          chatInputPlaceholder: "Escribe un mensaje",
-          subtitle: "En línea",
-          theme: {
-            header: {
-              backgroundColor: '#075e54',
-              color: 'white',
-              fontSize: '16px',
-              fontWeight: '500'
-            },
-            chatWindow: {
-              backgroundColor: '#e5ddd5',
-              backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0,0,0,.05) 2px, rgba(0,0,0,.05) 4px)',
-              height: '420px',
-              padding: '8px',
-              overflowY: 'auto',
-              scrollBehavior: 'smooth'
-            },
-            input: {
-              backgroundColor: 'white',
-              borderColor: '#d1d7db',
-              borderRadius: '20px',
-              fontSize: '14px',
-              padding: '12px 16px',
-              border: '1px solid #d1d7db',
-              minHeight: '44px',
-              maxHeight: '100px',
-              resize: 'vertical',
-              outline: 'none',
-              fontFamily: 'system-ui, -apple-system, sans-serif'
-            },
-            sendButton: {
-              backgroundColor: '#25d366',
-              borderRadius: '50%',
-              width: '40px',
-              height: '40px',
-              border: 'none',
-              marginLeft: '8px'
-            },
-            userMessage: {
-              backgroundColor: '#dcf8c6',
-              color: '#303030',
-              borderRadius: '18px 18px 4px 18px',
-              padding: '8px 12px',
-              marginBottom: '4px',
-              marginLeft: '60px',
-              boxShadow: '0 1px 0.5px rgba(0,0,0,.13)',
-              fontSize: '14px',
-              maxWidth: '80%',
-              alignSelf: 'flex-end'
-            },
-            botMessage: {
-              backgroundColor: 'white',
-              color: '#303030',
-              borderRadius: '18px 18px 18px 4px',
-              padding: '8px 12px',
-              marginBottom: '4px',
-              marginRight: '60px',
-              boxShadow: '0 1px 0.5px rgba(0,0,0,.13)',
-              fontSize: '14px',
-              maxWidth: '80%',
-              alignSelf: 'flex-start'
-            }
-          }
-        });
+        try {
+          import('https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js')
+            .then(({ createChat }) => {
+              createChat({
+                webhookUrl: 'https://benitjs.app.n8n.cloud/webhook/15ec5689-dd61-4429-9e21-a932e983b65a/chat',
+                target: '#n8n-chat-container',
+                mode: 'embedded',
+                defaultHeight: 420,
+                defaultWidth: 384,
+                showWindowCloseButton: false,
+                initialMessages: [
+                  "¡Hola! Soy AISA 🤖\\n\\nTu asistente virtual de SolarTech Argentina disponible 24/7!!",
+                  "Estoy aquí para ayudarte con consultas sobre sistemas solares, técnicas y operativas. ¿En qué puedo asistirte hoy?"
+                ],
+                chatInputPlaceholder: "Escribe un mensaje",
+                subtitle: "En línea",
+                theme: {
+                  header: {
+                    backgroundColor: '#075e54',
+                    color: 'white',
+                    fontSize: '16px',
+                    fontWeight: '500'
+                  },
+                  chatWindow: {
+                    backgroundColor: '#e5ddd5',
+                    backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0,0,0,.05) 2px, rgba(0,0,0,.05) 4px)',
+                    height: '100%',
+                    padding: '8px',
+                    overflowY: 'auto',
+                    scrollBehavior: 'smooth'
+                  },
+                  input: {
+                    backgroundColor: 'white',
+                    borderColor: '#d1d7db',
+                    borderRadius: '20px',
+                    fontSize: '14px',
+                    padding: '12px 16px',
+                    border: '1px solid #d1d7db',
+                    minHeight: '44px',
+                    maxHeight: '100px',
+                    resize: 'none',
+                    outline: 'none',
+                    fontFamily: 'system-ui, -apple-system, sans-serif'
+                  },
+                  sendButton: {
+                    backgroundColor: '#25d366',
+                    borderRadius: '50%',
+                    width: '40px',
+                    height: '40px',
+                    border: 'none',
+                    marginLeft: '8px'
+                  },
+                  userMessage: {
+                    backgroundColor: '#dcf8c6',
+                    color: '#303030',
+                    borderRadius: '18px 18px 4px 18px',
+                    padding: '8px 12px',
+                    marginBottom: '4px',
+                    marginLeft: '60px',
+                    boxShadow: '0 1px 0.5px rgba(0,0,0,.13)',
+                    fontSize: '14px',
+                    maxWidth: '80%',
+                    alignSelf: 'flex-end'
+                  },
+                  botMessage: {
+                    backgroundColor: 'white',
+                    color: '#303030',
+                    borderRadius: '18px 18px 18px 4px',
+                    padding: '8px 12px',
+                    marginBottom: '4px',
+                    marginRight: '60px',
+                    boxShadow: '0 1px 0.5px rgba(0,0,0,.13)',
+                    fontSize: '14px',
+                    maxWidth: '80%',
+                    alignSelf: 'flex-start'
+                  }
+                }
+              });
+              console.log('N8N chat initialized successfully');
+            })
+            .catch(error => {
+              console.error('Error creating chat:', error);
+            });
+        } catch (error) {
+          console.error('Error in chat script:', error);
+        }
       `;
       
       document.head.appendChild(script);
-      setChatInitialized(true);
-    }, 100);
+      
+      // Set initialization to true after a delay to allow loading
+      setTimeout(() => {
+        setChatInitialized(true);
+      }, 1500);
+      
+    } catch (error) {
+      console.error('Error initializing chat:', error);
+      setChatInitialized(false);
+    }
   };
 
   useEffect(() => {
