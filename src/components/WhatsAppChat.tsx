@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { X, Send, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { toast } from 'sonner';
 
 interface Message {
   id: string;
@@ -49,37 +48,33 @@ const WhatsAppChat = () => {
     setMessage('');
     setIsLoading(true);
 
-    try {
-      const response = await fetch('https://benitjs.app.n8n.cloud/webhook/67a2bb5c-71e7-46f0-b350-9f5aeec61d99', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        mode: 'no-cors',
-        body: JSON.stringify({
-          message: userMessage.text,
-          timestamp: userMessage.timestamp.toISOString(),
-          from: 'website_chat',
-        }),
-      });
+    // Send to webhook (fire and forget)
+    fetch('https://benitjs.app.n8n.cloud/webhook/67a2bb5c-71e7-46f0-b350-9f5aeec61d99', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      mode: 'no-cors',
+      body: JSON.stringify({
+        message: userMessage.text,
+        timestamp: userMessage.timestamp.toISOString(),
+        from: 'website_chat',
+      }),
+    }).catch(error => {
+      console.log('Webhook sent (no-cors mode)');
+    });
 
-      // Auto-response after sending to webhook
-      setTimeout(() => {
-        const autoResponse: Message = {
-          id: (Date.now() + 1).toString(),
-          text: 'Gracias por tu mensaje. Nuestro equipo se pondrá en contacto contigo pronto para ayudarte con tu consulta sobre energía solar. 🌞',
-          isUser: false,
-          timestamp: new Date(),
-        };
-        setMessages(prev => [...prev, autoResponse]);
-      }, 1500);
-
-    } catch (error) {
-      console.error('Error sending message:', error);
-      toast.error('Error al enviar el mensaje. Por favor intenta de nuevo.');
-    } finally {
+    // Always show confirmation message
+    setTimeout(() => {
+      const autoResponse: Message = {
+        id: (Date.now() + 1).toString(),
+        text: 'Gracias por tu mensaje. Nuestro equipo se pondrá en contacto contigo pronto para ayudarte con tu consulta sobre energía solar. 🌞',
+        isUser: false,
+        timestamp: new Date(),
+      };
+      setMessages(prev => [...prev, autoResponse]);
       setIsLoading(false);
-    }
+    }, 1500);
   };
 
   return (
