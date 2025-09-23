@@ -17,14 +17,46 @@ const WhatsAppChat = () => {
         createChat({
           webhookUrl: 'https://benitjs.app.n8n.cloud/webhook/15ec5689-dd61-4429-9e21-a932e983b65a/chat',
           target: '#n8n-chat-container',
-          mode: 'window',
-          defaultHeight: 600,
-          defaultWidth: 400,
+          mode: 'embedded',
+          defaultHeight: 320,
+          defaultWidth: 320,
           showWindowCloseButton: false,
+          initialMessages: [
+            "¡Hola! 👋 Soy el agente especializado de SolarTech Argentina. ¿En qué puedo ayudarte con tu proyecto de energía solar?"
+          ],
+          chatInputPlaceholder: "Escribe tu consulta aquí...",
+          subtitle: "Respuesta inmediata",
           theme: {
             header: {
               backgroundColor: '#22c55e',
-              color: 'white'
+              color: 'white',
+              fontSize: '16px'
+            },
+            chatWindow: {
+              backgroundColor: '#f8fafc',
+              height: '280px'
+            },
+            input: {
+              backgroundColor: 'white',
+              borderColor: '#e2e8f0',
+              borderRadius: '8px',
+              fontSize: '14px',
+              padding: '12px'
+            },
+            sendButton: {
+              backgroundColor: '#22c55e',
+              borderRadius: '8px'
+            },
+            userMessage: {
+              backgroundColor: '#22c55e',
+              color: 'white',
+              borderRadius: '12px 12px 4px 12px'
+            },
+            botMessage: {
+              backgroundColor: 'white',
+              color: '#1f2937',
+              borderRadius: '12px 12px 12px 4px',
+              boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1)'
             }
           }
         });
