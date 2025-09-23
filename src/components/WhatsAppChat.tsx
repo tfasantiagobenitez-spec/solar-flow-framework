@@ -22,7 +22,11 @@ const WhatsAppChat = () => {
     "Nuestros paneles solares tienen garantía de 25 años y pueden reducir tu factura eléctrica hasta un 90%. ¿Te gustaría una cotización personalizada?",
     "¡Excelente pregunta! Nuestro equipo puede visitarte para hacer una evaluación gratuita. ¿Cuál es tu ubicación?",
     "Gracias por tu consulta. Un especialista se contactará contigo en las próximas 24 horas. ¿Hay algo más en lo que pueda ayudarte?",
-    "Para más información detallada, puedes llamarnos al 0800-SOLAR o visitar nuestra página web. ¡Estamos aquí para ayudarte!"
+    "Para más información detallada, puedes llamarnos al 0800-SOLAR o visitar nuestra página web. ¡Estamos aquí para ayudarte!",
+    "Estamos ubicados en Buenos Aires, Argentina. Trabajamos en toda la región metropolitana y alrededores.",
+    "Nuestros técnicos certificados realizan instalaciones profesionales con garantía completa.",
+    "Los sistemas solares se pagan solos en 3-5 años y duran más de 25 años. ¡Una excelente inversión!",
+    "Ofrecemos planes de financiación flexibles para que puedas comenzar tu proyecto solar hoy mismo."
   ];
 
   const initialMessages: Message[] = [
@@ -66,7 +70,10 @@ const WhatsAppChat = () => {
     setIsTyping(true);
 
     try {
-      // Send message to n8n webhook
+      // Intentar conectar con n8n webhook
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
       const response = await fetch('https://benitjs.app.n8n.cloud/webhook/15ec5689-dd61-4429-9e21-a932e983b65a/chat', {
         method: 'POST',
         headers: {
@@ -75,14 +82,15 @@ const WhatsAppChat = () => {
         body: JSON.stringify({
           message: userMessage,
           timestamp: new Date().toISOString()
-        })
+        }),
+        signal: controller.signal
       });
 
+      clearTimeout(timeoutId);
       const data = await response.json();
-      console.log('Response status:', response.status, 'Response data:', data);
 
-      if (response.ok) {
-        const botResponse = data.response || data.message || data.text || "Mensaje recibido correctamente.";
+      if (response.ok && data.response) {
+        const botResponse = data.response || data.message || data.text;
         
         const botMessage: Message = {
           id: Date.now() + 1,
@@ -93,30 +101,29 @@ const WhatsAppChat = () => {
         
         setMessages(prev => [...prev, botMessage]);
       } else {
-        // Handle server errors with more specific messages
-        const errorText = data.message || `Error del servidor (${response.status})`;
-        const errorMessage: Message = {
+        // Si el webhook no funciona, usar respuesta predefinida
+        throw new Error('Webhook not working, using fallback');
+      }
+    } catch (error) {
+      console.log('Using fallback response due to:', error);
+      
+      // Usar respuesta predefinida como respaldo
+      setTimeout(() => {
+        const fallbackResponse = botResponses[Math.floor(Math.random() * botResponses.length)];
+        const botMessage: Message = {
           id: Date.now() + 1,
-          text: `❌ ${errorText}\n\nPor favor verifica que el workflow de n8n esté funcionando correctamente. Mientras tanto, puedes contactarnos directamente por WhatsApp.`,
+          text: fallbackResponse + "\n\n📢 *Nota: Actualmente usando respuestas automáticas. Para consultas específicas, contacta directamente por WhatsApp.*",
           isBot: true,
           timestamp: new Date()
         };
         
-        setMessages(prev => [...prev, errorMessage]);
-      }
-    } catch (error) {
-      console.error('Error sending message:', error);
-      const errorMessage: Message = {
-        id: Date.now() + 1,
-        text: "❌ Error de conexión\n\nNo se pudo conectar con el servidor. Por favor verifica tu conexión a internet o contacta directamente por WhatsApp.",
-        isBot: true,
-        timestamp: new Date()
-      };
-      
-      setMessages(prev => [...prev, errorMessage]);
-    } finally {
-      setIsTyping(false);
+        setMessages(prev => [...prev, botMessage]);
+        setIsTyping(false);
+      }, 1000 + Math.random() * 1500);
+      return;
     }
+
+    setIsTyping(false);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
