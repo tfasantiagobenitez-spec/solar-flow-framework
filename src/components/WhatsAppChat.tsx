@@ -1,137 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { MessageCircle, X, Send } from 'lucide-react';
+import React, { useState } from 'react';
+import { MessageCircle, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-
-interface Message {
-  id: number;
-  text: string;
-  isBot: boolean;
-  timestamp: Date;
-}
 
 const WhatsAppChat = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [inputValue, setInputValue] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  const botResponses = [
-    "¡Hola! 👋 Soy ALP, tu asistente virtual de SolarTech Argentina. ¿En qué puedo ayudarte hoy?",
-    "Perfecto, te puedo ayudar con información sobre sistemas solares, cotizaciones y más. ¿Qué te interesa saber?",
-    "Nuestros paneles solares tienen garantía de 25 años y pueden reducir tu factura eléctrica hasta un 90%. ¿Te gustaría una cotización personalizada?",
-    "¡Excelente pregunta! Nuestro equipo puede visitarte para hacer una evaluación gratuita. ¿Cuál es tu ubicación?",
-    "Gracias por tu consulta. Un especialista se contactará contigo en las próximas 24 horas. ¿Hay algo más en lo que pueda ayudarte?",
-    "Para más información detallada, puedes llamarnos al 0800-SOLAR o visitar nuestra página web. ¡Estamos aquí para ayudarte!",
-    "Estamos ubicados en Buenos Aires, Argentina. Trabajamos en toda la región metropolitana y alrededores.",
-    "Nuestros técnicos certificados realizan instalaciones profesionales con garantía completa.",
-    "Los sistemas solares se pagan solos en 3-5 años y duran más de 25 años. ¡Una excelente inversión!",
-    "Ofrecemos planes de financiación flexibles para que puedas comenzar tu proyecto solar hoy mismo."
-  ];
-
-  const initialMessages: Message[] = [
-    {
-      id: 1,
-      text: "¡Hola! Soy ALP 🤖\n\nTu asistente virtual de SolarTech Argentina disponible 24/7!!",
-      isBot: true,
-      timestamp: new Date()
-    },
-    {
-      id: 2,
-      text: "Estoy aquí para ayudarte con consultas sobre sistemas solares, técnicas y operativas. ¿En qué puedo asistirte hoy?",
-      isBot: true,
-      timestamp: new Date()
-    }
-  ];
-
-  useEffect(() => {
-    if (isOpen && messages.length === 0) {
-      setMessages(initialMessages);
-    }
-  }, [isOpen]);
-
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
-
-  const handleSendMessage = async () => {
-    if (inputValue.trim() === '') return;
-
-    const userMessage = inputValue.trim();
-    const newMessage: Message = {
-      id: Date.now(),
-      text: userMessage,
-      isBot: false,
-      timestamp: new Date()
-    };
-
-    setMessages(prev => [...prev, newMessage]);
-    setInputValue('');
-    setIsTyping(true);
-
-    try {
-      const response = await fetch('https://benitjs.app.n8n.cloud/webhook/15ec5689-dd61-4429-9e21-a932e983b65a/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          message: userMessage,
-          user: 'web-chat',
-          timestamp: new Date().toISOString()
-        })
-      });
-
-      const data = await response.json();
-      console.log('N8N Response:', { status: response.status, data });
-
-      if (response.ok) {
-        // Intentar extraer la respuesta de diferentes posibles campos
-        const botResponse = data.response || data.reply || data.message || data.text || data.output;
-        
-        if (botResponse) {
-          const botMessage: Message = {
-            id: Date.now() + 1,
-            text: botResponse,
-            isBot: true,
-            timestamp: new Date()
-          };
-          setMessages(prev => [...prev, botMessage]);
-        } else {
-          throw new Error('No response content received from n8n');
-        }
-      } else {
-        throw new Error(`N8N Error (${response.status}): ${data.message || 'Unknown error'}`);
-      }
-    } catch (error) {
-      console.error('N8N Connection Error:', error);
-      
-      const errorMessage: Message = {
-        id: Date.now() + 1,
-        text: `🔧 Error de conexión con n8n: ${error.message}\n\nPor favor revisa la configuración del workflow en n8n.`,
-        isBot: true,
-        timestamp: new Date()
-      };
-      
-      setMessages(prev => [...prev, errorMessage]);
-    } finally {
-      setIsTyping(false);
-    }
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSendMessage();
-    }
-  };
-
-  const formatTime = (date: Date) => {
-    return date.toLocaleTimeString('es-AR', { 
-      hour: '2-digit', 
-      minute: '2-digit' 
-    });
-  };
 
   const handleOpen = () => {
     setIsOpen(true);
@@ -139,9 +11,6 @@ const WhatsAppChat = () => {
 
   const handleClose = () => {
     setIsOpen(false);
-    setMessages([]);
-    setInputValue('');
-    setIsTyping(false);
   };
 
   return (
@@ -185,69 +54,13 @@ const WhatsAppChat = () => {
           </Button>
         </div>
 
-        {/* Chat Messages Area */}
-        <div 
-          className="flex-1 h-[350px] overflow-y-auto p-4 bg-gray-50"
-          style={{ 
-            backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0,0,0,.02) 2px, rgba(0,0,0,.02) 4px)' 
-          }}
-        >
-          {messages.map((message) => (
-            <div
-              key={message.id}
-              className={`flex mb-3 ${message.isBot ? 'justify-start' : 'justify-end'}`}
-            >
-              <div
-                className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg shadow ${
-                  message.isBot
-                    ? 'bg-white text-gray-800 rounded-br-lg rounded-bl-sm rounded-tr-lg rounded-tl-lg'
-                    : 'bg-green-500 text-white rounded-bl-lg rounded-br-sm rounded-tl-lg rounded-tr-lg'
-                }`}
-              >
-                <p className="text-sm whitespace-pre-line">{message.text}</p>
-                <p className={`text-xs mt-1 ${message.isBot ? 'text-gray-500' : 'text-green-100'}`}>
-                  {formatTime(message.timestamp)}
-                </p>
-              </div>
-            </div>
-          ))}
-          
-          {/* Typing indicator */}
-          {isTyping && (
-            <div className="flex justify-start mb-3">
-              <div className="bg-white text-gray-800 px-4 py-2 rounded-lg shadow">
-                <div className="flex space-x-1">
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-75"></div>
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-150"></div>
-                </div>
-              </div>
-            </div>
-          )}
-          
-          <div ref={messagesEndRef} />
-        </div>
-
-        {/* Chat Input */}
-        <div className="p-4 bg-white border-t border-gray-200">
-          <div className="flex items-center space-x-2">
-            <textarea
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="Escribe un mensaje..."
-              className="flex-1 px-4 py-2 border border-gray-300 rounded-full resize-none focus:outline-none focus:ring-2 focus:ring-green-500 max-h-20"
-              rows={1}
-              style={{ minHeight: '40px' }}
-            />
-            <Button
-              onClick={handleSendMessage}
-              disabled={inputValue.trim() === ''}
-              className="w-10 h-10 rounded-full bg-green-500 hover:bg-green-600 disabled:bg-gray-300 flex items-center justify-center p-0"
-            >
-              <Send size={16} />
-            </Button>
-          </div>
+        {/* Chat Content - N8N Iframe */}
+        <div className="flex-1 h-[450px]">
+          <iframe 
+            src="https://benitjs.app.n8n.cloud/webhook/15ec5689-dd61-4429-9e21-a932e983b65a/chat"
+            className="w-full h-full border-none"
+            title="SolarTech Chat Assistant"
+          />
         </div>
       </div>
     </>
