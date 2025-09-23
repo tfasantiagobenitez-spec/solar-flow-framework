@@ -31,8 +31,8 @@ const WhatsAppChat = () => {
           webhookUrl: 'https://benitjs.app.n8n.cloud/webhook/15ec5689-dd61-4429-9e21-a932e983b65a/chat',
           target: '#n8n-chat-container',
           mode: 'embedded',
-          defaultHeight: 320,
-          defaultWidth: 320,
+          defaultHeight: 500,
+          defaultWidth: 400,
           showWindowCloseButton: false,
           initialMessages: [
             {
@@ -53,7 +53,7 @@ const WhatsAppChat = () => {
             chatWindow: {
               backgroundColor: '#e5ddd5',
               backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0,0,0,.05) 2px, rgba(0,0,0,.05) 4px)',
-              height: '280px',
+              height: '420px',
               padding: '8px',
               overflowY: 'auto',
               scrollBehavior: 'smooth'
@@ -63,11 +63,11 @@ const WhatsAppChat = () => {
               borderColor: '#d1d7db',
               borderRadius: '20px',
               fontSize: '14px',
-              padding: '8px 16px',
+              padding: '12px 16px',
               border: '1px solid #d1d7db',
-              minHeight: '20px',
-              maxHeight: '20px',
-              resize: 'none',
+              minHeight: '44px',
+              maxHeight: '100px',
+              resize: 'vertical',
               outline: 'none',
               fontFamily: 'system-ui, -apple-system, sans-serif'
             },
@@ -144,7 +144,7 @@ const WhatsAppChat = () => {
 
       {/* Chat Window */}
       <div
-        className={`fixed bottom-6 right-6 z-50 w-80 h-96 bg-white rounded-lg shadow-xl transition-all duration-300 overflow-hidden ${
+        className={`fixed bottom-6 right-6 z-50 w-96 h-[500px] bg-white rounded-lg shadow-xl transition-all duration-300 overflow-hidden ${
           isOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
         }`}
       >
@@ -172,7 +172,7 @@ const WhatsAppChat = () => {
         {/* Chat Container */}
         <div 
           id="n8n-chat-container" 
-          className="flex-1 h-80 w-full"
+          className="flex-1 h-[420px] w-full"
         >
           {isOpen && !chatInitialized && (
             <div className="flex items-center justify-center h-full">
