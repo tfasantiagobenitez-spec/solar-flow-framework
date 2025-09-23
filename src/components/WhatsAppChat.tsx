@@ -6,10 +6,23 @@ const WhatsAppChat = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [chatInitialized, setChatInitialized] = useState(false);
 
-  useEffect(() => {
-    if (isOpen && !chatInitialized) {
-      // Dynamically load the n8n chat widget
+  const initializeChat = () => {
+    // Clear any existing chat
+    const chatContainer = document.getElementById('n8n-chat-container');
+    if (chatContainer) {
+      chatContainer.innerHTML = '';
+    }
+
+    // Remove any existing scripts
+    const existingScript = document.querySelector('#n8n-chat-script');
+    if (existingScript) {
+      existingScript.remove();
+    }
+
+    // Wait a bit then initialize chat
+    setTimeout(() => {
       const script = document.createElement('script');
+      script.id = 'n8n-chat-script';
       script.type = 'module';
       script.innerHTML = `
         import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
@@ -22,7 +35,7 @@ const WhatsAppChat = () => {
           defaultWidth: 320,
           showWindowCloseButton: false,
           initialMessages: [
-            "¡Hola! Soy el Asistente Virtual de SolarTech Argentina 🌞\n\nTu asistente especializado en energía solar disponible 24/7!\n\nEstoy aquí para ayudarte con consultas sobre sistemas solares, financiamiento, instalaciones y más. ¿En qué puedo asistirte hoy?"
+            "¡Hola! Soy el Asistente Virtual de SolarTech Argentina 🌞\\n\\nTu asistente especializado en energía solar disponible 24/7!\\n\\nEstoy aquí para ayudarte con consultas sobre sistemas solares, financiamiento, instalaciones y más. ¿En qué puedo asistirte hoy?"
           ],
           chatInputPlaceholder: "Escribe un mensaje",
           subtitle: "En línea",
@@ -90,16 +103,24 @@ const WhatsAppChat = () => {
       
       document.head.appendChild(script);
       setChatInitialized(true);
+    }, 100);
+  };
 
-      // Cleanup function
-      return () => {
-        const chatContainer = document.getElementById('n8n-chat-container');
-        if (chatContainer) {
-          chatContainer.innerHTML = '';
-        }
-      };
+  useEffect(() => {
+    if (isOpen) {
+      initializeChat();
     }
-  }, [isOpen, chatInitialized]);
+  }, [isOpen]);
+
+  const handleClose = () => {
+    setIsOpen(false);
+    setChatInitialized(false);
+    // Clear chat container
+    const chatContainer = document.getElementById('n8n-chat-container');
+    if (chatContainer) {
+      chatContainer.innerHTML = '';
+    }
+  };
 
   return (
     <>
@@ -135,7 +156,7 @@ const WhatsAppChat = () => {
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => setIsOpen(false)}
+            onClick={handleClose}
             className="text-white hover:bg-green-600 p-1"
           >
             <X size={20} />
