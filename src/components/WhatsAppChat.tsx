@@ -48,20 +48,29 @@ const WhatsAppChat = () => {
     setMessage('');
     setIsLoading(true);
 
-    // Send to webhook (fire and forget)
+    // Send to webhook with proper error handling
+    console.log('Sending message to webhook:', userMessage.text);
     fetch('https://benitjs.app.n8n.cloud/webhook/15ec5689-dd61-4429-9e21-a932e983b65a/chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      mode: 'no-cors',
       body: JSON.stringify({
         message: userMessage.text,
         timestamp: userMessage.timestamp.toISOString(),
         from: 'website_chat',
       }),
-    }).catch(error => {
-      console.log('Webhook sent (no-cors mode)');
+    })
+    .then(response => {
+      console.log('Webhook response status:', response.status);
+      if (response.ok) {
+        console.log('Message sent successfully to webhook');
+      } else {
+        console.error('Webhook response not ok:', response.status, response.statusText);
+      }
+    })
+    .catch(error => {
+      console.error('Error sending to webhook:', error);
     });
 
     // Always show confirmation message
