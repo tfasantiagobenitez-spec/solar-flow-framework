@@ -24,39 +24,60 @@ const WhatsAppChat = () => {
           initialMessages: [
             "¡Hola! 👋 Soy el agente especializado de SolarTech Argentina. ¿En qué puedo ayudarte con tu proyecto de energía solar?"
           ],
-          chatInputPlaceholder: "Escribe tu consulta aquí...",
-          subtitle: "Respuesta inmediata",
+          chatInputPlaceholder: "Escribe un mensaje",
+          subtitle: "En línea",
           theme: {
             header: {
-              backgroundColor: '#22c55e',
+              backgroundColor: '#075e54',
               color: 'white',
-              fontSize: '16px'
+              fontSize: '16px',
+              fontWeight: '500'
             },
             chatWindow: {
-              backgroundColor: '#f8fafc',
-              height: '280px'
+              backgroundColor: '#e5ddd5',
+              backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0,0,0,.05) 2px, rgba(0,0,0,.05) 4px)',
+              height: '280px',
+              padding: '8px'
             },
             input: {
               backgroundColor: 'white',
-              borderColor: '#e2e8f0',
-              borderRadius: '8px',
+              borderColor: '#d1d7db',
+              borderRadius: '20px',
               fontSize: '14px',
-              padding: '12px'
+              padding: '10px 16px',
+              border: '1px solid #d1d7db'
             },
             sendButton: {
-              backgroundColor: '#22c55e',
-              borderRadius: '8px'
+              backgroundColor: '#25d366',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              border: 'none',
+              marginLeft: '8px'
             },
             userMessage: {
-              backgroundColor: '#22c55e',
-              color: 'white',
-              borderRadius: '12px 12px 4px 12px'
+              backgroundColor: '#dcf8c6',
+              color: '#303030',
+              borderRadius: '18px 18px 4px 18px',
+              padding: '8px 12px',
+              marginBottom: '4px',
+              marginLeft: '60px',
+              boxShadow: '0 1px 0.5px rgba(0,0,0,.13)',
+              fontSize: '14px',
+              maxWidth: '80%',
+              alignSelf: 'flex-end'
             },
             botMessage: {
               backgroundColor: 'white',
-              color: '#1f2937',
-              borderRadius: '12px 12px 12px 4px',
-              boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1)'
+              color: '#303030',
+              borderRadius: '18px 18px 18px 4px',
+              padding: '8px 12px',
+              marginBottom: '4px',
+              marginRight: '60px',
+              boxShadow: '0 1px 0.5px rgba(0,0,0,.13)',
+              fontSize: '14px',
+              maxWidth: '80%',
+              alignSelf: 'flex-start'
             }
           }
         });
