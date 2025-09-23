@@ -44,8 +44,13 @@ const WhatsAppChat = () => {
               borderColor: '#d1d7db',
               borderRadius: '20px',
               fontSize: '14px',
-              padding: '10px 16px',
-              border: '1px solid #d1d7db'
+              padding: '8px 16px',
+              border: '1px solid #d1d7db',
+              minHeight: '20px',
+              maxHeight: '20px',
+              resize: 'none',
+              outline: 'none',
+              fontFamily: 'system-ui, -apple-system, sans-serif'
             },
             sendButton: {
               backgroundColor: '#25d366',
