@@ -22,7 +22,7 @@ const WhatsAppChat = () => {
           defaultWidth: 320,
           showWindowCloseButton: false,
           initialMessages: [
-            "¡Hola! 👋 Soy el agente especializado de SolarTech Argentina. ¿En qué puedo ayudarte con tu proyecto de energía solar?"
+            "¡Hola! Soy el Asistente Virtual de SolarTech Argentina 🌞\n\nTu asistente especializado en energía solar disponible 24/7!\n\nEstoy aquí para ayudarte con consultas sobre sistemas solares, financiamiento, instalaciones y más. ¿En qué puedo asistirte hoy?"
           ],
           chatInputPlaceholder: "Escribe un mensaje",
           subtitle: "En línea",
