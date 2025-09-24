@@ -57,10 +57,8 @@ const WhatsAppChat = () => {
     setIsTyping(true);
 
     try {
-      // Intentar con modo 'no-cors' primero
       const response = await fetch('https://benitjs.app.n8n.cloud/webhook/67a2bb5c-71e7-46f0-b350-9f5aeec61d99', {
         method: 'POST',
-        mode: 'no-cors',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -70,14 +68,32 @@ const WhatsAppChat = () => {
         })
       });
 
-      // Como no-cors no nos permite leer la respuesta, simulamos una respuesta
-      const botMessage: Message = {
-        id: Date.now() + 1,
-        text: "✅ Mensaje enviado correctamente. La respuesta del webhook se procesará en segundo plano.",
-        isBot: true,
-        timestamp: new Date()
-      };
-      setMessages(prev => [...prev, botMessage]);
+      if (!response.ok) {
+        throw new Error(`Error ${response.status}: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      
+      // Extract response from various possible fields
+      const botResponse = data.response || data.reply || data.message || data.text || data.output || data.data || data.answer;
+      
+      if (botResponse) {
+        const botMessage: Message = {
+          id: Date.now() + 1,
+          text: botResponse,
+          isBot: true,
+          timestamp: new Date()
+        };
+        setMessages(prev => [...prev, botMessage]);
+      } else {
+        const botMessage: Message = {
+          id: Date.now() + 1,
+          text: "✅ Mensaje procesado correctamente.",
+          isBot: true,
+          timestamp: new Date()
+        };
+        setMessages(prev => [...prev, botMessage]);
+      }
       
     } catch (error) {
       console.error('Error connecting to assistant:', error);
