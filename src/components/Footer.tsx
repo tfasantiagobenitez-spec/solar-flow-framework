@@ -47,7 +47,7 @@ const Footer = () => {
                 <Zap className="h-4 w-4 text-primary absolute -bottom-1 -right-1" />
               </div>
               <span className="text-xl font-bold text-white">
-                SolarTech Argentina
+                ALP Group
               </span>
             </div>
 
@@ -64,7 +64,7 @@ const Footer = () => {
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="h-5 w-5 text-accent" />
-                <span className="text-white/90">info@solartech.com.ar</span>
+                <span className="text-white/90">info@alpgroup.com.ar</span>
               </div>
               <div className="flex items-center space-x-3">
                 <MapPin className="h-5 w-5 text-accent" />
@@ -163,7 +163,7 @@ const Footer = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="text-white/60 text-sm">
-              © 2024 SolarTech Argentina. Todos los derechos reservados.
+              © 2024 ALP Group. Todos los derechos reservados.
             </div>
             
             <div className="flex items-center space-x-6 text-sm text-white/60">

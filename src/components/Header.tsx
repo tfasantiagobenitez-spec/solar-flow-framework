@@ -36,7 +36,7 @@ const Header = () => {
               <Zap className="h-4 w-4 text-primary absolute -bottom-1 -right-1" />
             </div>
             <span className="text-xl font-bold bg-gradient-solar bg-clip-text text-transparent">
-              SolarTech Argentina
+              ALP Group
             </span>
           </div>
 
