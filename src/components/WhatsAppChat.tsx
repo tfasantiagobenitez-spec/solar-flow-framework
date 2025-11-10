@@ -24,7 +24,7 @@ const WhatsAppChat = () => {
             title: 'SolarTech Argentina',
             subtitle: 'Asistente Virtual',
             footer: '',
-            getStarted: '¡Comienza la conversación!',
+            getStarted: 'Inicia una conversación. Estamos aquí para ayudarte 24/7.',
             inputPlaceholder: 'Escribe tu mensaje...',
           }
         }
