@@ -21,16 +21,16 @@ const WhatsAppChat = () => {
         showWelcomeScreen: true,
         defaultLanguage: 'es',
         initialMessages: [
-          '¡Hola! Somos SolarTech Argentina. ¿En qué te podemos ayudar hoy?'
+          '¡Hola! Somos ALP Group. ¿En qué te podemos ayudar hoy?'
         ],
         i18n: {
           es: {
-            title: 'SolarTech Argentina',
+            title: 'ALP Group',
             subtitle: 'Asistente Virtual',
             footer: '',
             getStarted: 'Inicia una conversación. Estamos aquí para ayudarte 24/7.',
             inputPlaceholder: 'Escribe tu mensaje...',
-            greeting: '¡Hola! Somos SolarTech Argentina',
+            greeting: '¡Hola! Somos ALP Group',
           }
         }
       });
