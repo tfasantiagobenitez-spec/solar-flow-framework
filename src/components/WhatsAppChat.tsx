@@ -20,7 +20,7 @@ const WhatsAppChat = () => {
           '¡Hola! Somos SolarTech Argentina. ¿En qué te podemos ayudar hoy?'
         ],
         i18n: {
-          es: {
+          en: {
             title: 'SolarTech Argentina',
             subtitle: 'Asistente Virtual',
             footer: '',
