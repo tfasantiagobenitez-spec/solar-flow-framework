@@ -15,7 +15,24 @@ const WhatsAppChat = () => {
       import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
       
       createChat({
-        webhookUrl: 'https://benitjs.app.n8n.cloud/webhook/15ec5689-dd61-4429-9e21-a932e983b65a/chat'
+        webhookUrl: 'https://benitjs.app.n8n.cloud/webhook/15ec5689-dd61-4429-9e21-a932e983b65a/chat',
+        mode: 'window',
+        showInput: true,
+        showWelcomeScreen: true,
+        defaultLanguage: 'es',
+        initialMessages: [
+          '¡Hola! Somos SolarTech Argentina. ¿En qué te podemos ayudar hoy?'
+        ],
+        i18n: {
+          es: {
+            title: 'SolarTech Argentina',
+            subtitle: 'Asistente Virtual',
+            footer: '',
+            getStarted: 'Inicia una conversación. Estamos aquí para ayudarte 24/7.',
+            inputPlaceholder: 'Escribe tu mensaje...',
+            greeting: '¡Hola! Somos SolarTech Argentina',
+          }
+        }
       });
     `;
     document.body.appendChild(script);
