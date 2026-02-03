@@ -1,18 +1,18 @@
 # Licencia de Uso Académico Restringido
 
-## Copyright © 2025 [Tu Nombre] - [Nombre de tu Universidad]
+## Copyright © 2025 Milagros Lietti y Maria Trinidad Benitez - FIUBA
 
 ### Términos de Uso
 
-Este proyecto fue desarrollado como parte del trabajo académico para [Nombre de la Materia/Curso] en [Universidad], bajo la supervisión de [Profesor/a].
+Este proyecto fue desarrollado como parte del trabajo académico para Seminario de Inteligencia Artificial en FIUBA, bajo la supervisión de Xavier Gonzalez y Juan Cruz Camacho.
 
 #### ✅ PERMITIDO (sin autorización previa):
 
 1. **Consulta Académica**: Estudiantes y profesores pueden revisar el código con fines educativos
 2. **Referencias**: Citar este proyecto en trabajos académicos con atribución apropiada:
    ```
-   [Tu Nombre]. (2025). Solar Flow Framework con AI Agent. 
-   Proyecto Académico - [Universidad]. 
+   Milagros Lietti y Maria Trinidad Benitez. (2025). Solar Flow Framework con AI Agent. 
+   Proyecto Académico - FIUBA. 
    Disponible en: https://github.com/[tu-usuario]/[tu-repo]
    ```
 3. **Aprendizaje**: Estudiar la arquitectura, metodologías y soluciones implementadas
@@ -28,8 +28,7 @@ Este proyecto fue desarrollado como parte del trabajo académico para [Nombre de
 #### 📋 PARA SOLICITAR AUTORIZACIÓN:
 
 Si deseas usar este proyecto fuera de los términos permitidos, contacta a:
-- **Email**: [tu-email@ejemplo.com]
-- **LinkedIn**: [tu-perfil]
+- **Email**: mtbenitez@fi.uba.ar
 - **Incluye**: propósito de uso, alcance, atribución propuesta
 
 #### ⚖️ TÉRMINOS LEGALES:
@@ -48,10 +47,10 @@ FUERA DE O EN CONEXIÓN CON EL SOFTWARE O EL USO U OTROS TRATOS EN EL SOFTWARE.
 #### 🎓 CONTEXTO ACADÉMICO:
 
 **Proyecto**: Sistema de Automatización con AI Agent para Empresa de Energía Solar  
-**Institución**: [Tu Universidad]  
-**Materia**: [Nombre de la Materia]  
+**Institución**: FIUBA  
+**Materia**: Seminario de Inteligencia Artificial
 **Año**: 2025  
-**Profesor/a**: [Nombre]  
+**Profesores**: Xavier Gonzalez y Juan Cruz Camacho  
 
 **Tecnologías Principales**:
 - n8n Cloud (Workflow Automation)
@@ -69,31 +68,17 @@ FUERA DE O EN CONEXIÓN CON EL SOFTWARE O EL USO U OTROS TRATOS EN EL SOFTWARE.
 
 ---
 
-### 🤝 Colaboración Académica
 
-Si eres estudiante o profesor y deseas:
-- Replicar este proyecto con fines educativos
-- Colaborar en mejoras
-- Usar como caso de estudio
-
-**Contáctame** y te proveeré:
-- Documentación extendida
-- Guía de setup paso a paso
-- Acceso a datasets de ejemplo (anonimizados)
-- Consultas técnicas
-
----
-
-### 🏆 Agradecimientos
+### Agradecimientos
 
 - **ALP Group**: Por permitir usar su caso de negocio real
-- **[Nombre del Profesor]**: Por la guía y feedback durante el desarrollo
+- **Xavier Gonzalez y Juan Cruz Camacho**: Por la guía y feedback durante el desarrollo
 - **Anthropic**: Por Claude AI y su excelente API
 - **n8n Community**: Por los recursos y ejemplos de workflows
-- **Mis compañeros de clase**: Por el feedback y testing
+
 
 ---
 
 **Fecha de última actualización**: Febrero 2025
 
-**Para reportar violaciones de esta licencia**: [tu-email@ejemplo.com]
+**Para reportar violaciones de esta licencia**: mtbenitez@fi.uba.ar
