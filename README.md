@@ -1,30 +1,21 @@
-# 🌞 Solar Flow Framework - AI-Powered Sales Agent
+# Solar Flow Framework - AI-Powered Sales Agent
 
 > Sistema de automatización con Inteligencia Artificial para empresa de energía solar, 
-> desarrollado como proyecto académico para [Universidad].
+> desarrollado como proyecto académico para FIUBA.
 
 [![License](https://img.shields.io/badge/license-Academic%20Use%20Only-red.svg)](LICENSE.md)
 [![n8n](https://img.shields.io/badge/n8n-Cloud-orange.svg)](https://n8n.io)
 [![Claude](https://img.shields.io/badge/Claude-Sonnet%204-blue.svg)](https://anthropic.com)
 
-## 🎯 Descripción
+## Descripción
 
 Sistema completo de automatización que combina:
-- 🤖 **AI Agent conversacional** (Claude Sonnet 4)
-- 🔄 **Workflow automation** (n8n Cloud)
-- 📊 **Base de conocimiento** (Pinecone + RAG)
-- 🌐 **Frontend web** (Lovable)
-- 💾 **Data pipeline** (Google Sheets)
+- **AI Agent conversacional** (Claude Sonnet 4)
+- **Workflow automation** (n8n Cloud)
+- **Base de conocimiento** (Pinecone + RAG)
+- **Frontend web** (Lovable)
+- **Data pipeline** (Google Sheets)
 
-El sistema cualifica leads, genera cotizaciones automáticas, agenda visitas y 
-mantiene sincronizado todo el proceso de venta.
-
-## 📊 Resultados
-
-- ⚡ **Tiempo de respuesta**: De 24h → 2 minutos
-- 📈 **Leads calificados**: +45% vs proceso manual
-- 💰 **ROI**: [Pendiente medición a 3 meses]
-- ⭐ **CSAT**: 8.7/10 en primeras 100 conversaciones
 
 ## 🏗️ Arquitectura
 
@@ -73,7 +64,7 @@ mantiene sincronizado todo el proceso de venta.
 └──────────────────┘
 ```
 
-## 🚀 Setup Rápido
+## Setup Rápido
 
 ### Prerrequisitos
 
@@ -125,7 +116,7 @@ python scripts/upload_knowledge_base.py
 4. Deploy
 ```
 
-## 📁 Estructura del Proyecto
+## Estructura del Proyecto
 
 ```
 solar-flow-framework/
@@ -166,7 +157,7 @@ solar-flow-framework/
 └── requirements.txt                   # Dependencias Python
 ```
 
-## 🛠️ Tecnologías
+## Tecnologías
 
 | Categoría | Tecnología | Propósito |
 |-----------|------------|-----------|
@@ -178,63 +169,42 @@ solar-flow-framework/
 | **Database** | Google Sheets | Storage de leads y datos |
 | **Analytics** | Google Analytics 4 | Métricas y conversiones |
 
-## 📚 Documentación Completa
+## Documentación Completa
 
 - [Arquitectura del Sistema](docs/ARCHITECTURE.md)
-- [Guía de Deployment](docs/DEPLOYMENT.md)
 - [API y Webhooks](docs/API.md)
 - [Mejora del Agente AI](docs/AGENT_OPTIMIZATION.md)
 - [Próximos Pasos](docs/ROADMAP.md)
 
-## 🎓 Contexto Académico
+##  Contexto Académico
 
-Este proyecto fue desarrollado para la materia **[Nombre de la Materia]** en **[Universidad]** 
+Este proyecto fue desarrollado para la materia **Seminario de Inteligencia Artificial** en **FIUBA** 
 durante el ciclo académico 2025.
 
 **Objetivos cumplidos**:
 - ✅ Integración de AI en workflow empresarial real
 - ✅ Implementación de RAG (Retrieval Augmented Generation)
-- ✅ Automatización end-to-end de proceso de venta
 - ✅ Métricas de impacto medibles
-- ✅ Documentación técnica completa
 
-**Calificación obtenida**: [Pendiente]
 
-## 📊 Métricas de Rendimiento
 
-```python
-# Benchmark actual (primeras 100 conversaciones)
-{
-  "tiempo_respuesta_promedio": "1.2 segundos",
-  "tasa_conversion_lead": "12%",
-  "satisfaccion_usuario": "8.7/10",
-  "queries_resueltas_sin_humano": "78%",
-  "costo_por_lead": "$3.50 USD"
-}
-```
 
-## 🤝 Colaboración
+## Colaboración
 
 Este es un proyecto académico con licencia de uso restringido. Ver [LICENSE.md](LICENSE.md).
 
 Para colaboración académica o consultas:
-- 📧 Email: [tu-email]
-- 💼 LinkedIn: [tu-perfil]
-- 📝 Issues: [Abrir issue en GitHub]
+- Email: mtbenitez@fi.uba.ar o mlietti@fi.uba.ar
 
-## 🙏 Agradecimientos
+## Agradecimientos
 
 - **ALP Group** por el caso de negocio real
-- **Prof. [Nombre]** por la mentoría
-- **Anthropic** por Claude AI
-- **n8n Community** por recursos y soporte
+- **Profesores Xavier Gonzalez y Juan Cruz Camacho** por la mentoría
 
-## 📜 Licencia
+## Licencia
 
 Uso Académico Restringido © 2025. Ver [LICENSE.md](LICENSE.md) para detalles.
 
 **NO autorizado para uso comercial sin permiso explícito.**
 
----
 
-Desarrollado con ❤️ para [Universidad] - 2025
