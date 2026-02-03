@@ -6,7 +6,7 @@
 
 Este proyecto fue desarrollado como parte del trabajo académico para Seminario de Inteligencia Artificial en FIUBA, bajo la supervisión de Xavier Gonzalez y Juan Cruz Camacho.
 
-#### ✅ PERMITIDO (sin autorización previa):
+#### PERMITIDO (sin autorización previa):
 
 1. **Consulta Académica**: Estudiantes y profesores pueden revisar el código con fines educativos
 2. **Referencias**: Citar este proyecto en trabajos académicos con atribución apropiada:
@@ -17,7 +17,7 @@ Este proyecto fue desarrollado como parte del trabajo académico para Seminario 
    ```
 3. **Aprendizaje**: Estudiar la arquitectura, metodologías y soluciones implementadas
 
-#### ❌ PROHIBIDO (sin autorización escrita):
+#### PROHIBIDO (sin autorización escrita):
 
 1. **Uso Comercial**: No se permite usar este código en proyectos comerciales
 2. **Redistribución**: No se puede redistribuir, publicar o compartir el código como propio
@@ -25,13 +25,13 @@ Este proyecto fue desarrollado como parte del trabajo académico para Seminario 
 4. **Plagio Académico**: Copiar código para presentar como trabajo propio en otras materias/universidades
 5. **Competencia**: Usar este sistema para competir con ALP Group o similares
 
-#### 📋 PARA SOLICITAR AUTORIZACIÓN:
+#### PARA SOLICITAR AUTORIZACIÓN:
 
 Si deseas usar este proyecto fuera de los términos permitidos, contacta a:
 - **Email**: mtbenitez@fi.uba.ar
 - **Incluye**: propósito de uso, alcance, atribución propuesta
 
-#### ⚖️ TÉRMINOS LEGALES:
+#### TÉRMINOS LEGALES:
 
 ```
 ESTE SOFTWARE SE PROPORCIONA "TAL CUAL", SIN GARANTÍA DE NINGÚN TIPO, 
@@ -44,7 +44,7 @@ YA SEA EN UNA ACCIÓN DE CONTRATO, AGRAVIO O DE OTRO MODO, QUE SURJA DE,
 FUERA DE O EN CONEXIÓN CON EL SOFTWARE O EL USO U OTROS TRATOS EN EL SOFTWARE.
 ```
 
-#### 🎓 CONTEXTO ACADÉMICO:
+#### CONTEXTO ACADÉMICO:
 
 **Proyecto**: Sistema de Automatización con AI Agent para Empresa de Energía Solar  
 **Institución**: FIUBA  
