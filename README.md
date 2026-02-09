@@ -5,7 +5,7 @@
 
 [![License](https://img.shields.io/badge/license-Academic%20Use%20Only-red.svg)](LICENSE.md)
 [![n8n](https://img.shields.io/badge/n8n-Cloud-orange.svg)](https://n8n.io)
-[![Claude](https://img.shields.io/badge/Claude-Sonnet%204-blue.svg)](https://anthropic.com)
+
 
 ## Descripción general del proyecto
 
@@ -21,7 +21,6 @@ La integración se implementa mediante workflows en **n8n**, conectados a un mod
 
 ## Componentes principales (resumen)
 
-- **AI Agent conversacional** (Claude Sonnet 4)
 - **Automatización de workflows** (n8n Cloud)
 - **Base de conocimiento** (Pinecone + RAG)
 - **Dashboard web** (HTML)
