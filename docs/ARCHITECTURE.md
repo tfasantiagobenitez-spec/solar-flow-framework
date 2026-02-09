@@ -68,20 +68,21 @@ Herramienta visual para analizar el comportamiento de los leads y apoyar decisio
 
 ## 4. Guía Completa: n8n y AI Agent
 
-### 🔧 Fundamentos de n8n
+### Fundamentos de n8n
 **n8n** conecta servicios mediante nodos.
 *   **Trigger**: Inicia el flujo (chat, webhook).
 *   **Nodos de acción**: Procesan datos o llaman APIs.
 *   **Conexiones**: Pasan datos entre nodos.
 
-### 🤖 Configuración del AI Agent
+### Configuración del AI Agent
 
 #### Configuración básica
-Configuracion, instalacion y primer flujo: https://www.youtube.com/watch?v=T6btgihNdWw
-Resumen del video: 
-1. Introducción a n8n
+Configuración, instalación y primer flujo: https://www.youtube.com/watch?v=T6btgihNdWw
 
-¿Qué es n8n?
+**Resumen del video:**
+**1. Introducción a n8n**
+
+* ¿Qué es n8n?
 
 Plataforma de automatización de flujos de trabajo, similar a Make o Zapier.
 
@@ -91,7 +92,7 @@ Ejemplo práctico: Automatizar la publicación de contenido de Airtable en Insta
 
 
 
-Características principales de n8n:
+* Características principales de n8n:
 
 Código abierto y gratuito: Totalmente personalizable y auditado por la comunidad.
 
@@ -101,7 +102,69 @@ Interfaz visual intuitiva: Aunque menos amigable que otras herramientas, sigue s
 
 Compatible con código: Aunque no es necesario saber programar, se puede incluir código si es requerido.
 
-2. 
+**2. Instalación de n8n**
+
+
+1. Instalar Node.js:
+
+Ir a nodejs.org y descargar la versión LTS adecuada para tu sistema operativo.
+
+Seguir las instrucciones del instalador.
+
+
+2. Instalar npm y n8n:
+
+Abrir el terminal (en Windows: cmd).
+
+Escribir: npm install -g n8n
+
+Iniciar n8n con:n8n start
+
+Acceder a la interfaz a través de localhost:5678 en el navegador.
+
+1. Primer acceso:
+
+Crear credenciales al iniciar sesión por primera vez en la interfaz.
+
+**3. Creacion de un flujo básico**
+Se muestra un ejemplo práctico. 
+
+**Fundamentos de n8n: 
+Nodos, triggers y JavaScript: https://www.youtube.com/watch?v=TsX8TE9S4pw&t=933s
+Resumen del video: 
+
+**1. Tipos de nodos en n8n**
+
+* Nodos Trigger: Inician los flujos de trabajo.
+Ejemplos: Webhook, Scheduler, Airtable Trigger.
+
+* Nodos Action: Realizan acciones específicas.
+Ejemplos: Enviar emails, actualizar bases de datos, subir datos a Google Sheets.
+
+* Nodos Helper: Ayudan a manipular información.
+Ejemplos: Nodo If, Split Out, Aggregate.
+
+* Nodos Especiales: Realizan acciones avanzadas o múltiples.
+Ejemplos: Interacción con WhatsApp, análisis de texto o sentimiento.
+
+**2. Creación de flujos básicos en n8n**
+
+* Cómo iniciar un flujo con nodos Trigger.
+* Personalización de flujos para ejecutar acciones específicas.
+
+**3. Uso del nodo Code**
+
+* Potencial del nodo Code para manejar datos usando JavaScript.
+* Explicación paso a paso del código en JavaScript
+
+**4. Conclusiones**
+
+* Los nodos son la base para crear flujos en n8n.
+* Triggers son esenciales para iniciar flujos, y el nodo Code amplía las posibilidades con JavaScript.
+
+
+
+
 
 
 #### Conexión Paso a Paso
