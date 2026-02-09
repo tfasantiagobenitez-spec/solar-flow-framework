@@ -1,10 +1,7 @@
-# Solar Flow Framework - AI-Powered Sales Agent
+# ALP Group - AI-Powered Sales Agent
 
 > Sistema de automatización con Inteligencia Artificial para empresa de energía solar, 
 > desarrollado como proyecto académico para FIUBA.
-
-[![License](https://img.shields.io/badge/license-Academic%20Use%20Only-red.svg)](LICENSE.md)
-[![n8n](https://img.shields.io/badge/n8n-Cloud-orange.svg)](https://n8n.io)
 
 
 ## Descripción general del proyecto
