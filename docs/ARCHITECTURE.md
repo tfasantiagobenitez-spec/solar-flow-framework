@@ -44,7 +44,7 @@ El flujo de interacción con el cliente es el siguiente:
 
 **Recurso:** [Google Sheets de Leads](https://docs.google.com/spreadsheets/d/1vuGJrk6arYQAL-TcU4To-AevUWaGQQ5IKOLr1_vNw5g/edit?gid=125280768#gid=125280768)
 
----
+### Enlace al sitio web: [Solar Flow Framework](https://solar-flow-framework.lovable.app/)---
 
 ## 3. Dashboard de análisis de leads
 Herramienta visual para analizar el comportamiento de los leads y apoyar decisiones comerciales.
@@ -66,15 +66,8 @@ Herramienta visual para analizar el comportamiento de los leads y apoyar decisio
 
 ---
 
-## 4. Guía Completa: n8n y AI Agent
+## 4. Guía Completa: N8n 
 
-### Fundamentos de n8n
-**n8n** conecta servicios mediante nodos.
-*   **Trigger**: Inicia el flujo (chat, webhook).
-*   **Nodos de acción**: Procesan datos o llaman APIs.
-*   **Conexiones**: Pasan datos entre nodos.
-
-### Configuración del AI Agent
 
 #### Configuración básica
 Configuración, instalación y primer flujo: https://www.youtube.com/watch?v=T6btgihNdWw
@@ -127,10 +120,12 @@ Acceder a la interfaz a través de localhost:5678 en el navegador.
 Crear credenciales al iniciar sesión por primera vez en la interfaz.
 
 **3. Creacion de un flujo básico**
+
 Se muestra un ejemplo práctico. 
 
-**Fundamentos de n8n: 
+**Fundamentos de n8n:**
 Nodos, triggers y JavaScript: https://www.youtube.com/watch?v=TsX8TE9S4pw&t=933s
+
 Resumen del video: 
 
 **1. Tipos de nodos en n8n**
@@ -163,34 +158,32 @@ Ejemplos: Interacción con WhatsApp, análisis de texto o sentimiento.
 * Triggers son esenciales para iniciar flujos, y el nodo Code amplía las posibilidades con JavaScript.
 
 
+**Integraciones avanzadas**
+Conexion de Google con N8n: https://www.youtube.com/watch?v=lH1ZPQJYkAM&t=209s
+Resumen del video:
+
+Se explicara como integrar servicios como Google Drive, Docs, Sheets, Slides y Gmail en N8n, gestionando credenciales y configuraciones necesarias.
+
+**1. Conexión de Google con N8n**
+
+* Pasos clave:
+
+Acceder a Google Console Cloud.
+
+Crear un proyecto específico para la integración (ejemplo: n8n-youtube).
+
+Habilitar APIs de Google (Drive, Docs, Sheets, Slides o Gmail) desde la biblioteca de APIs.
+
+Configurar la pantalla de consentimiento y credenciales OAuth para permitir conexiones seguras.
+
+Limitar credenciales en N8n: solo se permite una cuenta por servicio de Google.
+
+
+* Consideraciones:
+
+Una cuenta de Gmail puede usarse solo para una credencial en N8n.
+
+Las credenciales se configuran como OAuth, incluyendo Client ID y Client Secret.
 
 
 
-
-#### Conexión Paso a Paso
-1.  **Crear nodo AI Agent**: Conectar modelo Anthropic.
-2.  **Configurar Tools**:
-    *   *Vector Store*: Conectar Pinecone y Embeddings.
-    *   *Calculator*: Habilitar herramienta de cálculo.
-3.  **Configurar Memory**: Usar `Window Buffer Memory` ligado al ID del chat.
-
-### 💾 Vector Store (Pinecone)
-*   **Index Name**: `tu-agente-kb`
-*   **Dimensions**: 384 (para `all-MiniLM-L6-v2`)
-*   **Metric**: cosine
-*   **Alimentación**: Flujo de ingesta de documentos (PDF/Texto -> Splitter -> Embeddings -> Pinecone).
-
-### 📋 Checklist de implementación
-- [ ] Crear cuenta Pinecone y configurar índice
-- [ ] Obtener API keys (Anthropic, HuggingFace, Pinecone)
-- [ ] Configurar credenciales en n8n
-- [ ] Crear flujo "Base de datos" y subir documentos
-- [ ] Configurar AI Agent con tools
-- [ ] Conectar trigger (chat/webhook)
-- [ ] Probar con casos de uso reales
-- [ ] Agregar logging a Google Sheets
-- [ ] Implementar manejo de errores
-- [ ] Deploy y monitoreo
-
-### Enlace al sitio web
-[Solar Flow Framework](https://solar-flow-framework.lovable.app/)
