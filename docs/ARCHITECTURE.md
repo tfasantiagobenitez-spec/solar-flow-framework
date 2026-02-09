@@ -7,7 +7,7 @@ El proyecto se desarrolló para la empresa **ALP Group**, dedicada a la instalac
 2.  **Organizar automáticamente esa información** en una planilla de Google Sheets, para contar con una base de datos limpia y estructurada de leads.
 3.  **Construir un dashboard interactivo**, que permita analizar los resultados de manera visual y apoyar la toma de decisiones comerciales.
 
-Para lograrlo se utilizaron flujos de trabajo en **n8n** integrados con un modelo de lenguaje, **Google Sheets** y un sistema de visualización en **HTML**.
+Para lograrlo se utilizaron flujos de trabajo en **n8n** integrados con un modelo de lenguaje, **Google Sheets** y un sistema de visualización en **HTML**. 
 
 ---
 
