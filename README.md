@@ -184,7 +184,7 @@ durante el ciclo académico 2025.
 **Objetivos cumplidos**:
 - ✅ Integración de AI en workflow empresarial real
 - ✅ Implementación de RAG (Retrieval Augmented Generation)
-- ✅ Métricas de impacto medibles
+- ✅ Métricas de impacto medibles 
 
 
 
