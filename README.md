@@ -7,174 +7,50 @@
 [![n8n](https://img.shields.io/badge/n8n-Cloud-orange.svg)](https://n8n.io)
 [![Claude](https://img.shields.io/badge/Claude-Sonnet%204-blue.svg)](https://anthropic.com)
 
-## Descripción
+## Descripción general del proyecto
 
-Sistema completo de automatización que combina:
+Este repositorio presenta una solución desarrollada para **ALP Group** (instalación de sistemas solares) que automatiza el proceso comercial con **n8n** y un **agente conversacional**.
+
+En la práctica, el sistema:
+- responde consultas de potenciales clientes por chat,
+- extrae y ordena los datos relevantes de cada conversación,
+- los guarda automáticamente en **Google Sheets** como base de leads,
+- y genera un **dashboard web** para visualizar resultados y apoyar decisiones.
+
+La integración se implementa mediante workflows en **n8n**, conectados a un modelo de lenguaje, una base de conocimiento (RAG) y salidas en HTML.
+
+## Componentes principales (resumen)
+
 - **AI Agent conversacional** (Claude Sonnet 4)
-- **Workflow automation** (n8n Cloud)
+- **Automatización de workflows** (n8n Cloud)
 - **Base de conocimiento** (Pinecone + RAG)
+- **Dashboard web** (HTML)
+- **Pipeline de datos** (Google Sheets)
 - **Frontend web** (Lovable)
-- **Data pipeline** (Google Sheets)
 
+## Cómo evaluar / Casos de prueba sugeridos
 
-## 🏗️ Arquitectura
+Estos casos sirven para verificar rápidamente que el sistema cumple los objetivos del proyecto:
 
-```
-┌─────────────────┐
-│   Usuario Web   │
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────────┐
-│  Chat Interface     │ (Lovable Frontend)
-│  + Quick Actions    │
-└─────────┬───────────┘
-          │
-          ▼
-┌──────────────────────────┐
-│   n8n Webhook Trigger    │
-└───────────┬──────────────┘
-            │
-            ▼
-   ┌────────────────────┐
-   │   AI Agent Node    │
-   │  (Claude Sonnet 4) │
-   └────────┬───────────┘
-            │
-    ┌───────┴────────┐
-    │                │
-    ▼                ▼
-┌─────────┐    ┌──────────────┐
-│ Tools:  │    │   Memory:    │
-│         │    │              │
-│ Vector  │    │  Chat        │
-│ Store   │    │  History     │
-│         │    │              │
-│         │    │  Session     │
-│         │    │  Context     │
-│         │    │              │
-└────┬────┘    └──────────────┘
-     │
-     ▼
-┌──────────────────┐
-│ Google Sheets DB │
-│ - Leads          │
-│ - Cotizaciones   │
-│ - Conversaciones │
-└──────────────────┘
-```
+### 1) Captura de lead y datos comerciales
+- **Prueba:** iniciar chat y consultar por una instalación solar.
+- **Esperado:** el agente hace preguntas para recolectar datos (nombre, ubicación, consumo, etc.).
+- **Verificación:** se crea/actualiza un registro en **Google Sheets** (lead + conversación).
 
-## Setup Rápido
+### 2) Consulta con base de conocimiento (RAG)
+- **Prueba:** preguntar algo técnico incluido en la documentación cargada (ej.: productos, tipos de paneles, financiación).
+- **Esperado:** el agente responde usando información de la base de conocimiento (Pinecone), manteniendo coherencia.
 
-### Prerrequisitos
+### 3) Dashboard / Visualización
+- **Prueba:** acceder al endpoint del dashboard (webhook).
+- **Esperado:** se muestra una vista HTML con métricas/indicadores (según el flujo implementado) para análisis comercial.
 
-```bash
-# APIs necesarias:
-- Anthropic API Key (Claude)
-- Pinecone API Key + Index
-- HuggingFace Token
-- n8n Cloud account
-- Google Sheets API (OAuth2)
-```
-
-### 1. Clonar repositorio
-
-```bash
-git clone https://github.com/[tu-usuario]/solar-flow-framework.git
-cd solar-flow-framework
-```
-
-### 2. Configurar n8n Workflows
-
-```bash
-# Importar workflows
-1. Ir a n8n Cloud: https://[tu-instancia].app.n8n.cloud
-2. Import > Seleccionar archivo: workflows/agente-principal.json
-3. Import > Seleccionar archivo: workflows/base-datos-vectorial.json
-4. Configurar credenciales en cada nodo
-```
-
-### 3. Configurar Vector Store
-
-```python
-# Crear índice en Pinecone
-Index Name: solar-agent-kb
-Dimensions: 384
-Metric: cosine
-
-# Subir documentos iniciales
-python scripts/upload_knowledge_base.py
-```
-
-### 4. Deploy Frontend
-
-```bash
-# En Lovable
-1. Abrir: https://lovable.dev
-2. Import project
-3. Conectar con repo
-4. Deploy
-```
-
-## Estructura del Proyecto
-
-```
-solar-flow-framework/
-│
-├── workflows/
-│   ├── agente-principal.json          # Flujo principal del AI Agent
-│   ├── base-datos-vectorial.json      # Pipeline de embeddings
-│   └── email-follow-up.json           # Automatización post-lead
-│
-├── knowledge-base/
-│   ├── productos/
-│   │   ├── paneles-solares.pdf
-│   │   └── inversores.pdf
-│   ├── financiacion/
-│   │   └── incentivos-fiscales.md
-│   └── faq/
-│       └── preguntas-frecuentes.md
-│
-├── frontend/
-│   └── lovable-project/               # Código del sitio web
-│
-├── scripts/
-│   ├── upload_knowledge_base.py       # Sube docs a Pinecone
-│   ├── test_agent.py                  # Tests del agente
-│   └── export_metrics.py              # Exporta analytics
-│
-├── docs/
-│   ├── ARCHITECTURE.md                # Diagramas y explicación técnica
-│   ├── API.md                         # Documentación de webhooks
-│   └── DEPLOYMENT.md                  # Guía de deploy completo
-│
-├── tests/
-│   ├── test_workflows.py
-│   └── test_agent_responses.py
-│
-├── LICENSE.md                         # Licencia académica
-├── README.md                          # Este archivo
-└── requirements.txt                   # Dependencias Python
-```
-
-## Tecnologías
-
-| Categoría | Tecnología | Propósito |
-|-----------|------------|-----------|
-| **AI/LLM** | Claude Sonnet 4 | Motor conversacional |
-| **Automation** | n8n Cloud | Orquestación de workflows |
-| **Vector DB** | Pinecone | Base de conocimiento (RAG) |
-| **Embeddings** | HuggingFace | all-MiniLM-L6-v2 |
-| **Frontend** | Lovable | Sitio web + chat interface |
-| **Database** | Google Sheets | Storage de leads y datos |
-| **Analytics** | Google Analytics 4 | Métricas y conversiones |
+---
 
 ## Documentación Completa
 
-- [Arquitectura del Sistema](docs/ARCHITECTURE.md)
-- [API y Webhooks](docs/API.md)
-- [Mejora del Agente AI](docs/AGENT_OPTIMIZATION.md)
-- [Próximos Pasos](docs/ROADMAP.md)
+- [Arquitectura del Sistema](docs/ARCHITECTURE.md)*(incluye guía de uso y recursos para principiantes)*
+- [Próximos Pasos](docs/ROADMAP.md)*(incluye mejoras para el Agente AI)*
 
 ##  Contexto Académico
 
@@ -184,10 +60,7 @@ durante el ciclo académico 2025.
 **Objetivos cumplidos**:
 - ✅ Integración de AI en workflow empresarial real
 - ✅ Implementación de RAG (Retrieval Augmented Generation)
-- ✅ Métricas de impacto medibles 
-
-
-
+- ✅ Métricas de impacto medibles
 
 ## Colaboración
 
