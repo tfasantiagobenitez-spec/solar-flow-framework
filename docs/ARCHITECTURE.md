@@ -77,12 +77,32 @@ Herramienta visual para analizar el comportamiento de los leads y apoyar decisio
 ### 🤖 Configuración del AI Agent
 
 #### Configuración básica
-*   **Input**: Mensaje del chat.
-*   **Model**: Anthropic Chat Model (ej. `claude-sonnet-4-20250514`).
-*   **Tools**:
-    *   **Vector Store (Pinecone)**: Búsqueda semántica en base de conocimiento.
-    *   **Calculator**: Para cálculos matemáticos.
-*   **Memory**: Window Buffer Memory para mantener contexto.
+Configuracion, instalacion y primer flujo: https://www.youtube.com/watch?v=T6btgihNdWw
+Resumen del video: 
+1. Introducción a n8n
+
+¿Qué es n8n?
+
+Plataforma de automatización de flujos de trabajo, similar a Make o Zapier.
+
+Permite conectar aplicaciones para automatizar tareas repetitivas.
+
+Ejemplo práctico: Automatizar la publicación de contenido de Airtable en Instagram.
+
+
+
+Características principales de n8n:
+
+Código abierto y gratuito: Totalmente personalizable y auditado por la comunidad.
+
+Control total y privacidad: Puede instalarse localmente en tu ordenador.
+
+Interfaz visual intuitiva: Aunque menos amigable que otras herramientas, sigue siendo accesible para principiantes.
+
+Compatible con código: Aunque no es necesario saber programar, se puede incluir código si es requerido.
+
+2. 
+
 
 #### Conexión Paso a Paso
 1.  **Crear nodo AI Agent**: Conectar modelo Anthropic.
