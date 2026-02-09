@@ -27,6 +27,23 @@ La integración se implementa mediante workflows en **n8n**, conectados a un mod
 - **Pipeline de datos** (Google Sheets)
 - **Frontend web** (Lovable)
 
+## Rol de n8n en la solución
+
+En este sistema, **n8n funciona como el orquestador**: conecta el frontend del chat, el modelo de lenguaje, la base de conocimiento y Google Sheets mediante workflows.
+
+### Workflows principales
+- **Workflow 1 — Agente conversacional (Chatbot + Leads):**  
+  Recibe mensajes del usuario, consulta/crea el lead en Google Sheets, ejecuta el AI Agent (Claude) y actualiza la información del lead (por ejemplo estado del lead y datos comerciales recolectados).
+
+- **Workflow 2 — Base de conocimiento (Ingesta a Pinecone):**  
+  Permite cargar documentos (PDF/texto), dividirlos en fragmentos (chunks), generar embeddings y guardarlos en Pinecone para búsquedas semánticas (RAG).
+
+- **Workflow 3 — Dashboard (Webhook → HTML):**  
+  Lee los leads desde Google Sheets, calcula métricas y devuelve un HTML con gráficos interactivos (Plotly) para análisis comercial.
+
+> El detalle nodo por nodo y los recursos para aprender n8n se encuentran en `docs/ARCHITECTURE.md`.
+
+
 ## Cómo evaluar / Casos de prueba sugeridos
 
 Estos casos sirven para verificar rápidamente que el sistema cumple los objetivos del proyecto:
@@ -48,8 +65,8 @@ Estos casos sirven para verificar rápidamente que el sistema cumple los objetiv
 
 ## Documentación Completa
 
-- [Arquitectura del Sistema](docs/ARCHITECTURE.md)*(incluye guía de uso y recursos para principiantes)*
-- [Próximos Pasos](docs/ROADMAP.md)*(incluye mejoras para el Agente AI)*
+- [Arquitectura del Sistema](docs/ARCHITECTURE.md) *(incluye guía de uso y recursos para principiantes)*
+- [Próximos Pasos](docs/ROADMAP.md) *(incluye mejoras para el Agente AI)*
 
 ##  Contexto Académico
 
