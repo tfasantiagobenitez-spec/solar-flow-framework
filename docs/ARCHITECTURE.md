@@ -159,7 +159,9 @@ Ejemplos: Interacción con WhatsApp, análisis de texto o sentimiento.
 
 
 **Integraciones avanzadas**
+
 Conexion de Google con N8n: https://www.youtube.com/watch?v=lH1ZPQJYkAM&t=209s
+
 Resumen del video:
 
 Se explicara como integrar servicios como Google Drive, Docs, Sheets, Slides y Gmail en N8n, gestionando credenciales y configuraciones necesarias.
