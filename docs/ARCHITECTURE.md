@@ -69,7 +69,7 @@ Herramienta visual para analizar el comportamiento de los leads y apoyar decisio
 ## 4. Guía Completa: N8n 
 
 
-#### Configuración básica
+## Configuración básica
 Configuración, instalación y primer flujo: https://www.youtube.com/watch?v=T6btgihNdWw
 
 **Resumen del video:**
@@ -123,7 +123,7 @@ Crear credenciales al iniciar sesión por primera vez en la interfaz.
 
 Se muestra un ejemplo práctico. 
 
-**Fundamentos de n8n:**
+##**Fundamentos de n8n:**
 Nodos, triggers y JavaScript: https://www.youtube.com/watch?v=TsX8TE9S4pw&t=933s
 
 Resumen del video: 
